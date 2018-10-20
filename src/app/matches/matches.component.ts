@@ -9,16 +9,21 @@ import { Match } from '../shared/match';
 })
 export class MatchesComponent implements OnInit {
 
-  matches: Match[]
+  matches: Match[];
+  selectedMatch: Match;
 
   constructor(private matchService: MatchService) { }
 
   ngOnInit() {
-    this.getMatches()
+    this.getMatches();
   }
 
   getMatches(): void {
     this.matchService.getMatches()
         .subscribe(matches => this.matches = matches)
+  }
+
+  onSelect(match: Match): void{
+    this.selectedMatch = match;
   }
 }

@@ -1,6 +1,6 @@
 
 export class Match {
-    _id: string;
+    id: number;
     created_date: string;
     league: string;
     team_one: string;
