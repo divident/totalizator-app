@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatchService } from '../match.service';
+import { MatchService } from '../services/match.service';
 import { Match } from '../shared/match';
 
 @Component({
@@ -21,6 +21,7 @@ export class MatchesComponent implements OnInit {
   getMatches(): void {
     this.matchService.getMatches()
         .subscribe(matches => this.matches = matches)
+        
   }
 
   onSelect(match: Match): void{

@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Comment } from './shared/comment';
-import { baseURL } from './shared/baseurl';
+import { Comment } from '../shared/comment';
+import { baseURL } from '../shared/baseurl';
 import { ProcessHttpmsgService } from './process-httpmsg.service';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { Comment } from '../shared/comment';
 import { Match } from '../shared/match';
-import { CommentsService } from '../comments.service';
+import { CommentsService } from '../services/comments.service';
 
 @Component({
   selector: 'app-comments',
