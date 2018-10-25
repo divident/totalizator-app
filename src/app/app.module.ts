@@ -1,26 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatToolbarModule, MatDialogModule, MatFormFieldModule, 
-  MatInputModule, MatCheckboxModule} from '@angular/material';
+import { MatToolbarModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { MatchesComponent } from './matches/matches.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatchDetailComponent } from './match-detail/match-detail.component';
-import { CommentsComponent } from './comments/comments.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './login/login.component'; 
+import { LoginComponent } from './login/login.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AccountComponent } from './account/account.component'; 
 
 @NgModule({
   declarations: [
     AppComponent,
     MatchesComponent,
     MatchDetailComponent,
-    CommentsComponent,
     LoginComponent,    
-    HeaderComponent,
+    HeaderComponent, AccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +31,8 @@ import { LoginComponent } from './login/login.component';
     MatCheckboxModule,
     MatInputModule,
     BrowserAnimationsModule,
+    MatButtonModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent],

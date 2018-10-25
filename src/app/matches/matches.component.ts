@@ -10,7 +10,6 @@ import { Match } from '../shared/match';
 export class MatchesComponent implements OnInit {
 
   matches: Match[];
-  selectedMatch: Match;
 
   constructor(private matchService: MatchService) { }
 
@@ -24,7 +23,4 @@ export class MatchesComponent implements OnInit {
         
   }
 
-  onSelect(match: Match): void{
-    this.selectedMatch = match;
-  }
 }

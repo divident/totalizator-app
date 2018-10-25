@@ -39,10 +39,12 @@ export class AuthService {
 
   useCredentials(credentails: any) {
     this.isAuthenticated = true;
+    this.sendUsername(credentails.username);
     this.authToken = credentails.token;
   }
 
   sendUsername(name: string) {
+    console.log('sendUsername ' + name)
     this.username.next(name);
   }
 

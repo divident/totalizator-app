@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent implements OnInit {
 
   user = {username: '', password: '', remember: false};
-  errMess: string;
+  public errMsg: string;
 
   constructor(public dialogRef: MatDialogRef<LoginComponent>,
     private authService: AuthService) { }
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       },
       error => {
         console.log(error);
-        this.errMess = error
+        this.errMsg = error.message
       })
   }
 

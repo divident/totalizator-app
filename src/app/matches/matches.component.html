@@ -3,9 +3,8 @@
 <li *ngFor="let match of matches"
     [class.selected]="match === selectedMatch"
     (click)="onSelect(match)">
-    <div><span>{{match.team_one}} kontra {{match.team_two}}</span></div>
+    <a routerLink="/match/{{match.id}}">
+        <span>{{match.team_one}} kontra {{match.team_two}}</span>
+    </a>
 </li>
 </ul>
-
-<app-match-detail [match]="selectedMatch"></app-match-detail>
-<app-comments [match]="selectedMatch"></app-comments>

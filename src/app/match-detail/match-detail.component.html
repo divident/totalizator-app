@@ -3,3 +3,11 @@
   <div><span>id: </span>{{match.id}}</div>
   <div><span>liga: </span>{{match.league}}</div>
 </div>
+
+<div *ngIf='comments'>
+  <ul class="comments">
+    <li *ngFor="let comment of comments">
+      <span class="comment">Autor: {{comment.author}}<br></span>{{comment.content}}
+    </li>
+  </ul>
+</div>

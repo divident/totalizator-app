@@ -1,4 +1,6 @@
 <mat-toolbar color="primary">
+  <a mat-button routerLink="/matches" routerLinkActive="active"><span class="fa fa-home fa-lg"></span> Matches</a>
+  <a mat-button routerLink="/account" routerLinkActive="active"><span class="fa fa-home fa-lg"></span> Account</a>
   <span class="flex-spacer"></span>
   <a *ngIf="!username" mat-button (click)="openLoginForm()"><span class="fa fa-sign-in fa-lg"></span> Login</a>
   <a *ngIf="username">{{username}}</a>
