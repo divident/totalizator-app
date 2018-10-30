@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { baseURL } from '../shared/baseurl';
 import { map } from "rxjs/operators";
@@ -25,7 +25,7 @@ export class AuthService {
 
   private tokenKey = 'JWT';
   private isAuthenticated: Boolean = false;
-  private username: Subject<string> = new Subject<string>();
+  public username: string = undefined;
   private authToken: string = undefined;
   private authUrl = `${baseURL}rest-auth/`;
 
@@ -39,18 +39,10 @@ export class AuthService {
 
   useCredentials(credentails: any) {
     this.isAuthenticated = true;
-    this.sendUsername(credentails.username);
+    this.username = credentails.username;
     this.authToken = credentails.token;
   }
 
-  sendUsername(name: string) {
-    console.log('sendUsername ' + name)
-    this.username.next(name);
-  }
-
-  clearUsername() {
-    this.username.next(undefined);
-  }
 
   logIn(user: any): Observable<any> {
     return this.http.post<AuthResponse>(this.authUrl + 'login/',
@@ -64,7 +56,7 @@ export class AuthService {
 
   destroyCredentials(): void {
     this.authToken = undefined;
-    this.clearUsername();
+    this.username = undefined;
     this.isAuthenticated = false;
     localStorage.removeItem(this.tokenKey)
   }
@@ -81,7 +73,18 @@ export class AuthService {
     }
   }
 
-  getUsername(): Observable<string> {
-    return this.username.asObservable();
+  getAuthHttpHeader(): {headers: HttpHeaders}  {
+    // TODO redirect to login page if there is no token
+    let jwtToken = JSON.parse(localStorage.getItem('JWT'));
+    if (jwtToken == undefined) {
+        jwtToken = ''
+    } else {
+      jwtToken = jwtToken.token;
+    }
+    return {headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': `JWT ${jwtToken}`
+      })
+    };
   }
 }

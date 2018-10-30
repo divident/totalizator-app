@@ -10,4 +10,16 @@
       <span class="comment">Autor: {{comment.author}}<br></span>{{comment.content}}
     </li>
   </ul>
+  <form novalidate [formGroup]="commentForm" #cform="ngForm" (ngSubmit)="onSubmit()">
+    <p>
+      <mat-form-field class="full-width">
+        <textarea matInput formControlName="content" placeholder="Your Comment" rows=4></textarea>
+        <mat-hint>
+          <span [hidden]="!(formErrors.comment)">
+                    {{formErrors.comment}}</span>
+        </mat-hint>
+      </mat-form-field>
+    </p>
+    <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
+  </form>
 </div>

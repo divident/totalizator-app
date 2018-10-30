@@ -21,12 +21,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authService.loadUserCredentials();
-    this.subscription = this.authService.getUsername()
-      .subscribe(name => { console.log(name); this.username = name; });    
+    this.username = this.authService.username;
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   openLoginForm() {
