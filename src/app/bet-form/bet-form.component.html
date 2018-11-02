@@ -1,0 +1,30 @@
+<div *ngIf="betForm">
+{{diagnostic}}
+<form novalidate [formGroup]="betForm" #cform="ngForm" (ngSubmit)="onSubmit()">
+  <p>
+    <label>Kurs:
+      <span>{{currentBetRate}}</span>
+    </label>
+  </p>
+  <p>
+    <mat-form-field>
+      <label>Stawka:
+        <input matInput type="text" formControlName="price">
+      </label>
+    </mat-form-field>
+  </p>
+  <mat-form-field>
+    <label>Zespół:
+      <mat-select disableOptionCentering formControlName="team">
+        <mat-option *ngFor="let team of teams" [value]="team">{{team}}</mat-option>
+      </mat-select>
+    </label>
+  </mat-form-field>
+  <p>
+    <label>Przewidywana wygrana:
+        <span>{{winValue}} zł</span>
+    </label>
+  </p>
+  <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="betForm.invalid">Submit</button>
+</form>
+</div>

@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatToolbarModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule} from '@angular/material';
+import { MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, 
+  MatInputModule, MatCheckboxModule, MatButtonModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { MatchesComponent } from './matches/matches.component';
@@ -11,7 +12,8 @@ import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AccountComponent } from './account/account.component'; 
+import { AccountComponent } from './account/account.component';
+import { BetFormComponent } from './bet-form/bet-form.component'; 
 
 @NgModule({
   declarations: [
@@ -19,7 +21,7 @@ import { AccountComponent } from './account/account.component';
     MatchesComponent,
     MatchDetailComponent,
     LoginComponent,    
-    HeaderComponent, AccountComponent,
+    HeaderComponent, AccountComponent, BetFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,8 @@ import { AccountComponent } from './account/account.component';
     MatInputModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

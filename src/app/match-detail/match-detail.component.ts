@@ -7,6 +7,8 @@ import { Match } from '../shared/match';
 import { Comment } from '../shared/comment';
 import { CommentsService } from '../services/comments.service';
 import { MatchService } from '../services/match.service';
+import { BetFormComponent } from '../bet-form/bet-form.component';
+
 
 @Component({
   selector: 'app-match-detail',
@@ -17,6 +19,7 @@ import { MatchService } from '../services/match.service';
 
 export class MatchDetailComponent implements OnInit {
   @ViewChild('cform') commentFormDirective;
+  @ViewChild(BetFormComponent) betForm;
   commentForm: FormGroup;
   comment: Comment;
   submitted = null;
@@ -45,6 +48,14 @@ export class MatchDetailComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.getMatch();
+  }
+
+  ngAfterViewInit() {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.matchService.getMatch(id)
+      .subscribe(match => {
+        this.betForm.match = match;
+        this.betForm.createForm();});
   }
 
   onSubmit() {
