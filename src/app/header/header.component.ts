@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     loginRef.afterClosed()
       .subscribe(result => {
         console.log(result);
+        this.username = result;
       });
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Bet } from '../shared/bet';
 import { Match } from '../shared/match';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { BetService } from '../services/bet.service';
 
 @Component({
   selector: 'app-bet-form',
@@ -17,7 +18,8 @@ export class BetFormComponent implements OnInit {
   teams = undefined;
   currentBetRate: number;
   winValue: number;
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private betService: BetService) { }
 
   ngOnInit() {
   }
@@ -26,11 +28,22 @@ export class BetFormComponent implements OnInit {
     this.teams = [this.match.team_one, this.match.team_two, 'Remis']
     this.betForm = this.formBuilder.group({
       price: 5,
-      team: this.teams[0]
+      picked_team: this.teams[0]
     });
     this.currentBetRate = this.match.team_one_win_exchange;
     this.winValue = <number>(this.betForm.get("price").value) * this.currentBetRate;
     this.onChanges();
+  }
+
+  onSubmit() {
+    this.betForm.value['match'] = this.match.id;
+    console.log(this.betForm.validator);
+    this.betService.postBet(this.betForm.value)
+      .subscribe(bet => {
+        if (bet) {
+          console.log(JSON.stringify(bet));
+        }
+      })
   }
 
   onChanges(): void {
@@ -38,7 +51,7 @@ export class BetFormComponent implements OnInit {
       console.log("Price changed " + price)
       this.winValue = price * this.currentBetRate;
     });
-    this.betForm.get('team').valueChanges.subscribe(team => {
+    this.betForm.get('picked_team').valueChanges.subscribe(team => {
       if(team === this.match.team_one) {
         this.currentBetRate = this.match.team_one_win_exchange;
       } else if(team == this.match.team_two) {
@@ -50,7 +63,4 @@ export class BetFormComponent implements OnInit {
       this.winValue = this.betForm.get('price').value * this.currentBetRate;
     });
   }
-
-  
-  get diagnostic() { return JSON.stringify(this.model); }
 }

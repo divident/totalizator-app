@@ -28,11 +28,11 @@ export class AccountService {
       )
   }
 
-  getTranstations(): Observable<Transaction> {
+  getTransations(): Observable<Transaction[]> {
     let httpOptions = this.authService.getAuthHttpHeader()
-    return this.http.get<Transaction>(this.transactionUrl, httpOptions)
+    return this.http.get<Transaction[]>(this.transactionUrl, httpOptions)
       .pipe(
-        catchError(this.processMsg.handleError<Transaction>('getTransaction'))
+        catchError(this.processMsg.handleError<Transaction[]>('getTransaction'))
       )
   }
 }

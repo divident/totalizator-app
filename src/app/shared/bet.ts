@@ -1,7 +1,16 @@
 export class Bet {
-    createdDate: Date;
+    id: number;
+    created_date: Date;
     price: number;
     match: number;
-    author: number;
-    pickedTeam: string;
+    player: number;
+    picked_team: string;
+    reward: number;
+    status: number;
+};
+
+export enum BetStatus {
+    PENDING = 0,
+    WIN = 1,
+    LOSE = 2
 };

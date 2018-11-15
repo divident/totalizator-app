@@ -9,4 +9,6 @@ export class Match {
     team_one_win_exchange: number;
     team_two_win_exchange: number;
     tie_exchange: number;
+    score_team_one: number;
+    score_team_two: number;
 }

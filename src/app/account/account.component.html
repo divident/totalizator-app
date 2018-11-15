@@ -1,5 +1,27 @@
-<h2>Account</h2>
 <div *ngIf="account">
-  <div><span>numer: </span>{{account.number}}</div>
-  <div><span>saldo: </span>{{account.balance}}</div>
+  <h2>Informacje o rachunku</h2>
+  <mat-list>
+    <mat-list-item>Numer rachunku: {{account.number}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Saldo: {{account.balance}} zł</mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+</div>
+<div *ngIf="transactions">
+  <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
+    <ng-container matColumnDef="created_date">
+      <th mat-header-cell *matHeaderCellDef> Data </th>
+      <td mat-cell *matCellDef="let element">{{element.created_date | date:'medium'}}</td>
+    </ng-container>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Tytułem </th>
+      <td mat-cell *matCellDef="let element">{{element.title}}</td>
+    </ng-container>
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef> Kwota </th>
+      <td mat-cell *matCellDef="let element">{{element.amount}} zł</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </div>

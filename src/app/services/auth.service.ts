@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-
+import { tap, shareReplay, map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { User } from '../shared/user';
 import { baseURL } from '../shared/baseurl';
-import { map } from "rxjs/operators";
+import { authKey} from '../shared/config';
 
 interface AuthResponse {
   status: string,
   success: string,
   token: string
+  user: User
 };
 
 interface JWTResponse {
@@ -23,7 +24,7 @@ interface JWTResponse {
 })
 export class AuthService {
 
-  private tokenKey = 'JWT';
+  
   private isAuthenticated: Boolean = false;
   public username: string = undefined;
   private authToken: string = undefined;
@@ -33,7 +34,7 @@ export class AuthService {
 
   storeUserCredentials(credentails: any) {
     console.log('storeUserCredentials', credentails);
-    localStorage.setItem(this.tokenKey, JSON.stringify(credentails))
+    localStorage.setItem(authKey, JSON.stringify(credentails))
     this.useCredentials(credentails)
   }
 
@@ -47,18 +48,19 @@ export class AuthService {
   logIn(user: any): Observable<any> {
     return this.http.post<AuthResponse>(this.authUrl + 'login/',
     {'username': user.username, 'password': user.password}).pipe(
-      map(res => {
-        this.storeUserCredentials({username: user.username, token: res.token});
-        return {'success': true, 'username': user.username};
-      }) 
+      tap(res => console.log(JSON.stringify(res))),
+      tap(res => this.storeUserCredentials({username: res.user.username, token: res.token})),
+      map(res => res.user.username),
+      shareReplay()
     )
+  
   }
 
   destroyCredentials(): void {
     this.authToken = undefined;
     this.username = undefined;
     this.isAuthenticated = false;
-    localStorage.removeItem(this.tokenKey)
+    localStorage.removeItem(authKey)
   }
 
   logOut() {
@@ -66,7 +68,7 @@ export class AuthService {
   }
 
   loadUserCredentials() {
-    const credentials = JSON.parse(localStorage.getItem(this.tokenKey));
+    const credentials = JSON.parse(localStorage.getItem(authKey));
     console.log('loadUserCredentials ', credentials);
     if (credentials && credentials.username !== undefined) {
       this.useCredentials(credentials);
@@ -75,7 +77,7 @@ export class AuthService {
 
   getAuthHttpHeader(): {headers: HttpHeaders}  {
     // TODO redirect to login page if there is no token
-    let jwtToken = JSON.parse(localStorage.getItem('JWT'));
+    let jwtToken = JSON.parse(localStorage.getItem(authKey));
     if (jwtToken == undefined) {
         jwtToken = ''
     } else {

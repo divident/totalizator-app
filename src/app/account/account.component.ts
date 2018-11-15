@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Account } from '../shared/account';
+import { Transaction } from '../shared/transaction';
 import { AccountService } from '../services/account.service';
 
 @Component({
@@ -10,11 +11,13 @@ import { AccountService } from '../services/account.service';
 export class AccountComponent implements OnInit {
 
   private account: Account;
-
+  private transactions: Transaction[];
+  private displayedColumns: string[] = ['created_date', 'title', 'amount'];
   constructor(private accountService: AccountService) { }
 
   ngOnInit() {
     this.getAccount();
+    this.getTransactions();
   }
 
   getAccount(): void {
@@ -22,4 +25,10 @@ export class AccountComponent implements OnInit {
       .subscribe(account => this.account = account)
   }
 
+  getTransactions(): void {
+    this.accountService.getTransations()
+      .subscribe(transactions => {
+        this.transactions = transactions;
+        console.log(transactions[0])})
+  }
 }

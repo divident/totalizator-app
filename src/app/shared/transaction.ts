@@ -1,6 +1,7 @@
 export class Transaction {
-    createdDate: Date;
+    created_date: Date;
     amount: Number;
-    srcAccount: String;
-    dstAccount: String;
+    src_account: String;
+    dst_account: String;
+    title: String;
 }

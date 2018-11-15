@@ -21,7 +21,7 @@ export class MatchService {
     private processMsg: ProcessHttpmsgService) { }
 
   getMatches(): Observable<Match[]> {
-    const url = baseURL + `${this.matchesUrl}`
+    const url = `${baseURL}${this.matchesUrl}`;
     return this.http.get<Match[]>(url)
       .pipe(
         catchError(this.processMsg.handleError<Match[]>('getMatches'))

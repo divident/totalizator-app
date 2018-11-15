@@ -1,5 +1,4 @@
 <div *ngIf="betForm">
-{{diagnostic}}
 <form novalidate [formGroup]="betForm" #cform="ngForm" (ngSubmit)="onSubmit()">
   <p>
     <label>Kurs:
@@ -15,7 +14,7 @@
   </p>
   <mat-form-field>
     <label>Zespół:
-      <mat-select disableOptionCentering formControlName="team">
+      <mat-select disableOptionCentering formControlName="picked_team">
         <mat-option *ngFor="let team of teams" [value]="team">{{team}}</mat-option>
       </mat-select>
     </label>
