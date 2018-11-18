@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, 
+import { MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule,
   MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
