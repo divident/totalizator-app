@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { tap, shareReplay, map} from 'rxjs/operators';
+import { tap, shareReplay, map, catchError} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { ProcessHttpmsgService } from './process-httpmsg.service';
 import { User } from '../shared/user';
 import { baseURL } from '../shared/baseurl';
 import { authKey} from '../shared/config';
@@ -30,7 +32,8 @@ export class AuthService {
   private authToken: string = undefined;
   private authUrl = `${baseURL}rest-auth/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private processMsg: ProcessHttpmsgService) { }
 
   storeUserCredentials(credentails: any) {
     console.log('storeUserCredentials', credentails);
@@ -88,5 +91,13 @@ export class AuthService {
         'Authorization': `JWT ${jwtToken}`
       })
     };
+  }
+
+  registerUser(data: any): Observable<any> {
+    let registerURL = `${baseURL}rest-auth/registration/`
+    return this.http.post(registerURL, data.value).pipe(
+      tap(res => console.log(res)),
+      catchError(this.processMsg.handleError<any>('register'))
+    )
   }
 }

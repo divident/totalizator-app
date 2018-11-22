@@ -35,7 +35,7 @@ export class MatchDetailComponent implements OnInit {
 
   validationMessages = {
     'comment': {
-      'required':      'Comment is required.'
+      'required': 'Comment is required.'
     }
   };
 

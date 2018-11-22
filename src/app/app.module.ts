@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule,
   MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule} from '@angular/material';
+import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
+import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
 
 import { AppComponent } from './app.component';
 import { MatchesComponent } from './matches/matches.component';
@@ -14,7 +16,8 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AccountComponent } from './account/account.component';
 import { BetFormComponent } from './bet-form/bet-form.component';
-import { BetComponent } from './bet/bet.component'; 
+import { BetComponent } from './bet/bet.component';
+import { LoginFormComponent } from './login-form/login-form.component'; 
 
 @NgModule({
   declarations: [
@@ -22,7 +25,7 @@ import { BetComponent } from './bet/bet.component';
     MatchesComponent,
     MatchDetailComponent,
     LoginComponent,    
-    HeaderComponent, AccountComponent, BetFormComponent, BetComponent,
+    HeaderComponent, AccountComponent, BetFormComponent, BetComponent, LoginFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,9 +43,16 @@ import { BetComponent } from './bet/bet.component';
     BrowserAnimationsModule,
     MatButtonModule,
     AppRoutingModule,
-    MatSelectModule
+    MatSelectModule,
+    RecaptchaModule,
+    RecaptchaFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: { siteKey: '6LcLGHwUAAAAAOFEYtdgPG842FwwtCzGsMjKM8Gf' } as RecaptchaSettings,
+    },
+  ],
   bootstrap: [AppComponent],
   entryComponents: [ LoginComponent, ]
 })

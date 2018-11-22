@@ -5,13 +5,15 @@ import { MatchDetailComponent } from './match-detail/match-detail.component';
 import { AccountComponent } from './account/account.component';
 import { BetComponent } from './bet/bet.component';
 import { AuthGuard } from './guards/auth.guard';
+import { LoginFormComponent } from './login-form/login-form.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/matches', pathMatch: 'full'},
   { path: 'matches', component: MatchesComponent},
   { path: 'match/:id', component: MatchDetailComponent},
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard]},
-  { path: 'bets', component: BetComponent, canActivate: [AuthGuard]}
+  { path: 'bets', component: BetComponent, canActivate: [AuthGuard]},
+  { path: 'register', component: LoginFormComponent}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
