@@ -1,11 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule,
+import { MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatTabsModule,
   MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule} from '@angular/material';
 import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
-
 import { AppComponent } from './app.component';
 import { MatchesComponent } from './matches/matches.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,7 +16,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AccountComponent } from './account/account.component';
 import { BetFormComponent } from './bet-form/bet-form.component';
 import { BetComponent } from './bet/bet.component';
-import { LoginFormComponent } from './login-form/login-form.component'; 
+import { LoginFormComponent } from './login-form/login-form.component';
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -40,12 +40,14 @@ import { LoginFormComponent } from './login-form/login-form.component';
     MatTableModule,
     MatDividerModule,
     MatListModule,
+    MatTabsModule,
     BrowserAnimationsModule,
     MatButtonModule,
     AppRoutingModule,
     MatSelectModule,
     RecaptchaModule,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    FlexLayoutModule
   ],
   providers: [
     {

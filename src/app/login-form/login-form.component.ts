@@ -3,6 +3,9 @@ import { FormBuilder, FormControl, Validators, AbstractControl, FormGroup } from
 import { AuthService } from '../services/auth.service';
 import { RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
+import { Router } from '@angular/router';
+import { HeaderComponent } from '../header/header.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -16,12 +19,18 @@ import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
   ],
 })
 export class LoginFormComponent implements OnInit {
-  registerForm: FormGroup
+  registerForm: FormGroup;
+  subscription: Subscription;
+  username: string;
+  user = {username: '', password: '', remember: false};
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder, 
+    private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit() {
     this.createForm()
+    this.subscription = this.authService.getUsername().subscribe(name => {console.log(name); this.username=name})
   }
 
   createForm(): void {
@@ -48,8 +57,27 @@ export class LoginFormComponent implements OnInit {
   onSubmit() {
     console.log(this.registerForm.value)
     this.authService.registerUser(this.registerForm).subscribe(
-      res => console.log(res),
-      err => console.log('Error ' + err)
+      res => {
+        console.log(res)
+        this.user.password = this.registerForm.value.password1
+        this.user.username = this.registerForm.value.username
+        this.authService.logIn(this.user).subscribe(usr => {
+          console.log('Login as ' + usr)
+          this.router.navigate([''])  
+        })
+      },
+      err => console.log("Error " + err)
+    )
+  }
+
+  login() {
+    console.log(this.user)
+    this.authService.logIn(this.user).subscribe(
+      res => {
+        console.log(res),
+        this.router.navigate([''])
+      },
+      err => console.log("Error " + err)
     )
   }
 }

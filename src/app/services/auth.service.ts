@@ -28,10 +28,10 @@ export class AuthService {
 
   
   private isAuthenticated: Boolean = false;
-  public username: string = undefined;
+  username: Subject<string> = new Subject<string>();
   private authToken: string = undefined;
   private authUrl = `${baseURL}rest-auth/`;
-
+  
   constructor(private http: HttpClient,
     private processMsg: ProcessHttpmsgService) { }
 
@@ -43,17 +43,26 @@ export class AuthService {
 
   useCredentials(credentails: any) {
     this.isAuthenticated = true;
-    this.username = credentails.username;
+    this.sendUsername(credentails.username)
     this.authToken = credentails.token;
   }
 
+  sendUsername(name: string) {
+    this.username.next(name);
+  }
+
+  clearUsername() {
+    this.username.next(undefined);
+  }
 
   logIn(user: any): Observable<any> {
+    console.log("User: " + JSON.stringify(user))
     return this.http.post<AuthResponse>(this.authUrl + 'login/',
     {'username': user.username, 'password': user.password}).pipe(
       tap(res => console.log(JSON.stringify(res))),
       tap(res => this.storeUserCredentials({username: res.user.username, token: res.token})),
-      map(res => res.user.username),
+      tap(res => this.sendUsername(res.user.username)),
+      map(res => {return {'success': true, 'username': user.username}}),
       shareReplay()
     )
   
@@ -61,7 +70,7 @@ export class AuthService {
 
   destroyCredentials(): void {
     this.authToken = undefined;
-    this.username = undefined;
+    this.username.next(undefined);
     this.isAuthenticated = false;
     localStorage.removeItem(authKey)
   }
@@ -99,5 +108,13 @@ export class AuthService {
       tap(res => console.log(res)),
       catchError(this.processMsg.handleError<any>('register'))
     )
+  }
+
+  isLoggedIn(): Boolean {
+    return this.isAuthenticated;
+  }
+
+  getUsername(): Observable<string> {
+    return this.username.asObservable();
   }
 }

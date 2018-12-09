@@ -1,8 +1,8 @@
 <mat-toolbar color="primary">
   <a mat-button routerLink="/matches" routerLinkActive="active">Matches</a>
-  <a mat-button routerLink="/account" routerLinkActive="active">Account</a>
-  <a mat-button routerLink="/bets" routerLinkActive="active">Bets</a>
-  <a mat-button routerLink="/register" routerLinkActive="active">Register</a>
+  <a *ngIf="!username" mat-button routerLink="/register" routerLinkActive="active">Register</a>
+  <a *ngIf="username" mat-button routerLink="/account" routerLinkActive="active">Account</a>
+  <a *ngIf="username" mat-button routerLink="/bets" routerLinkActive="active">Bets</a>
   <span class="fill-remaining-space"></span>
   <a *ngIf="!username" mat-button (click)="openLoginForm()">Login</a>
   <a *ngIf="username">{{username}}</a>
