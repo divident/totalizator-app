@@ -6,21 +6,25 @@
     <p>
       <mat-form-field>
         <input matInput type="text" formControlName="username" placeholder="Username">
+        <mat-error>Username is required</mat-error>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field>
         <input matInput type="text" formControlName="email" placeholder="Email">
+        <mat-error>Invalid email address</mat-error>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field>
         <input matInput type="password" formControlName="password1" placeholder="Password">
+        <mat-error>Password is required</mat-error>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field>
         <input matInput type="password" formControlName="password2" placeholder="Confirm Password">
+        <mat-error>Passwords do not match</mat-error>
       </mat-form-field>
     </p>
     <re-captcha formControlName="captcha_token"></re-captcha>
@@ -33,12 +37,14 @@
     <form #loginForm="ngForm" (ngSubmit)="login()">
       <p>
         <mat-form-field>
-          <input matInput type="text" [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}" placeholder="Username">
+          <input matInput type="text" [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}" placeholder="Username" #username="ngModel">
+          <mat-error>Username is required</mat-error>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field>
-          <input matInput type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" placeholder="Password">
+          <input matInput type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" placeholder="Password" #password="ngModel">
+          <mat-error>Password is required</mat-error>
         </mat-form-field>
       </p>
       <button type="submit" mat-stroked-button [disabled]="loginForm.invalid">Login</button>

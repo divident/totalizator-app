@@ -24,6 +24,14 @@ export class LoginFormComponent implements OnInit {
   username: string;
   user = {username: '', password: '', remember: false};
 
+  formErrors = {
+    'username': '',
+    'password1': '',
+    'notSame': '',
+    'email': '',
+    'captcha_token': ''
+  }
+
   constructor(private formBuilder: FormBuilder, 
     private authService: AuthService,
     private router: Router) { }
@@ -44,7 +52,7 @@ export class LoginFormComponent implements OnInit {
     {
       validator: this.checkPasswords
     })
-    
+    this.registerForm.valueChanges.subscribe(data => this.onValueChanges(data))
   }
 
   checkPasswords(group: FormGroup) { 
@@ -79,5 +87,25 @@ export class LoginFormComponent implements OnInit {
       },
       err => console.log("Error " + err)
     )
+  }
+
+  onValueChanges(data?: any) {
+    if(!this.registerForm) { return; }
+    const form = this.registerForm;
+    if (this.registerForm.hasError('notSame')) {
+      let field = "password2"
+      const control = form.get([field]);
+      this.formErrors[field] = control.errors
+    }
+    for(const field in this.formErrors) {
+      this.formErrors[field] = ''
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        for(const key in control.errors) {
+          console.log("Error key " + key)
+          this.formErrors[field] = control.errors
+        }
+      }
+    }
   }
 }
