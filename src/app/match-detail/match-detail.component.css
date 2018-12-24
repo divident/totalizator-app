@@ -1,0 +1,17 @@
+.match-card {
+    width: 50%;
+    margin-top: 2%;
+    text-align: center;
+}
+
+.match-header {
+    justify-content: center;
+}
+
+.comments-card {
+    width: 50%;
+}
+
+.full-width {
+    width: 100%;
+}

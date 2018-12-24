@@ -6,6 +6,7 @@ import { AccountComponent } from './account/account.component';
 import { BetComponent } from './bet/bet.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginFormComponent } from './login-form/login-form.component'
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/matches', pathMatch: 'full'},
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'match/:id', component: MatchDetailComponent},
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard]},
   { path: 'bets', component: BetComponent, canActivate: [AuthGuard]},
-  { path: 'register', component: LoginFormComponent}
+  { path: 'register', component: LoginFormComponent},
+  { path: 'reset-password', component: PasswordResetComponent}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

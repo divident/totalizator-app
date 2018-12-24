@@ -18,6 +18,9 @@ import { BetFormComponent } from './bet-form/bet-form.component';
 import { BetComponent } from './bet/bet.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import {FlexLayoutModule} from "@angular/flex-layout";
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     MatchesComponent,
     MatchDetailComponent,
     LoginComponent,    
-    HeaderComponent, AccountComponent, BetFormComponent, BetComponent, LoginFormComponent,
+    HeaderComponent, AccountComponent, BetFormComponent, BetComponent, LoginFormComponent, PasswordResetComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,9 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     MatSelectModule,
     RecaptchaModule,
     RecaptchaFormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatCardModule,
+    MatGridListModule
   ],
   providers: [
     {

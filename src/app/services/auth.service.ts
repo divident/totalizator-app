@@ -105,8 +105,7 @@ export class AuthService {
   registerUser(data: any): Observable<any> {
     let registerURL = `${baseURL}rest-auth/registration/`
     return this.http.post(registerURL, data.value).pipe(
-      tap(res => console.log(res)),
-      catchError(this.processMsg.handleError<any>('register'))
+      tap(res => console.log(res))
     )
   }
 
@@ -116,5 +115,12 @@ export class AuthService {
 
   getUsername(): Observable<string> {
     return this.username.asObservable();
+  }
+
+  resetPassword(data: any): Observable<any> {
+    let resetURL = `${baseURL}rest-auth/password/reset/`
+    return this.http.post(resetURL, data).pipe(
+      tap(res => console.log(res))
+    )
   }
 }

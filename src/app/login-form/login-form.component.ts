@@ -27,8 +27,7 @@ export class LoginFormComponent implements OnInit {
   formErrors = {
     'username': '',
     'password1': '',
-    'notSame': '',
-    'email': '',
+    'password2': '',
     'captcha_token': ''
   }
 
@@ -74,7 +73,12 @@ export class LoginFormComponent implements OnInit {
           this.router.navigate([''])  
         })
       },
-      err => console.log("Error " + err)
+      err => {
+        console.log("Error " + err)
+        if(err.status==400) {
+          this.showErrorMessages(err.error)
+        }
+      }
     )
   }
 
@@ -85,8 +89,17 @@ export class LoginFormComponent implements OnInit {
         console.log(res),
         this.router.navigate([''])
       },
-      err => console.log("Error " + err)
+      err => console.log("Error " + JSON.stringify(err))
     )
+  }
+
+  showErrorMessages(error: {string: Array<string>}) {
+    for(let [key, value] of Object.entries(error)){
+      if(key in this.formErrors) {
+        this.formErrors[key] += value + " " 
+      }
+    }
+    console.log("Errors from server " + JSON.stringify(this.formErrors))
   }
 
   onValueChanges(data?: any) {

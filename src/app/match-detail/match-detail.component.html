@@ -1,26 +1,44 @@
-<div *ngIf="match">
-  <h2>{{match.team_one | uppercase}} vs {{match.team_two | uppercase}}</h2>
-  <div><span>id: </span>{{match.id}}</div>
-  <div><span>liga: </span>{{match.league}}</div>
-</div>
-
-<app-bet-form></app-bet-form>
-<div *ngIf="comments">
-  <ul class="comments">
-    <li *ngFor="let comment of comments">
-      <span class="comment">Autor: {{comment.author}}<br></span>{{comment.content}}
-    </li>
-  </ul>
-  <form novalidate [formGroup]="commentForm" #cform="ngForm" (ngSubmit)="onSubmit()">
-    <p>
-      <mat-form-field class="full-width">
-        <textarea matInput formControlName="content" placeholder="Your Comment" rows=4></textarea>
-        <mat-hint>
-          <span [hidden]="!(formErrors.comment)">
-                    {{formErrors.comment}}</span>
-        </mat-hint>
-      </mat-form-field>
-    </p>
-    <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
-  </form>
+<div class="container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="50px">
+  <div *ngIf="match" class="match-card">
+    <mat-card>
+      <mat-card-header class="match-header">
+        <mat-card-title>Mecz: {{match.team_one | uppercase}} vs {{match.team_two | uppercase}}</mat-card-title>
+        <mat-card-subtitle>Liga: {{ match.league }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-bet-form></app-bet-form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="comments-card">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Komentarze</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="(comments?.length)">
+          <ul class="comments">
+            <li *ngFor="let comment of comments">
+              <span class="comment">Autor: {{comment.author}}<br></span>{{comment.content}}
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="!(comments?.length)">
+          Brak komentarzy! Bądź pierwszą osobą która napisze komentarz.
+        </div>
+        <form novalidate [formGroup]="commentForm" #cform="ngForm" (ngSubmit)="onSubmit()">
+          <p>
+            <mat-form-field class="full-width">
+              <textarea matInput formControlName="content" placeholder="Komentarz" rows="4"></textarea>
+              <mat-error>
+                <span [hidden]="!(formErrors.comment)">
+                  {{formErrors.comment}}</span>
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Wyślij</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

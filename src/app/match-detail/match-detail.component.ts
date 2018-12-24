@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Match } from '../shared/match';
@@ -41,7 +40,6 @@ export class MatchDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private matchService: MatchService,
-              private location: Location,
               private commentsService: CommentsService,
               private formBuilder: FormBuilder) { }
 
@@ -84,7 +82,10 @@ export class MatchDetailComponent implements OnInit {
   
   getComments(matchId: number): void {
     this.commentsService.getMatchComments(matchId)
-        .subscribe(comments => this.comments = comments)
+        .subscribe(comments => {
+          this.comments = comments;
+          console.log("Comments", this.comments)
+        })
   }
 
   createForm() {
