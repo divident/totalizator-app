@@ -7,18 +7,13 @@ import { ProcessHttpmsgService } from './process-httpmsg.service';
 import { User } from '../shared/user';
 import { baseURL } from '../shared/baseurl';
 import { authKey} from '../shared/config';
+import { Router } from '@angular/router';
 
 interface AuthResponse {
   status: string,
   success: string,
   token: string
   user: User
-};
-
-interface JWTResponse {
-  status: string,
-  success: string,
-  user: any
 };
 
 @Injectable({
@@ -33,7 +28,8 @@ export class AuthService {
   private authUrl = `${baseURL}rest-auth/`;
   
   constructor(private http: HttpClient,
-    private processMsg: ProcessHttpmsgService) { }
+    private processMsg: ProcessHttpmsgService,
+    private router: Router) { }
 
   storeUserCredentials(credentails: any) {
     console.log('storeUserCredentials', credentails);
@@ -48,6 +44,7 @@ export class AuthService {
   }
 
   sendUsername(name: string) {
+    console.log("User name: ", name)
     this.username.next(name);
   }
 
@@ -77,6 +74,7 @@ export class AuthService {
 
   logOut() {
     this.destroyCredentials();
+    this.router.navigate(['/'])
   }
 
   loadUserCredentials() {
@@ -88,7 +86,6 @@ export class AuthService {
   }
 
   getAuthHttpHeader(): {headers: HttpHeaders}  {
-    // TODO redirect to login page if there is no token
     let jwtToken = JSON.parse(localStorage.getItem(authKey));
     if (jwtToken == undefined) {
         jwtToken = ''

@@ -7,3 +7,19 @@
     background-color: #CFD8DC !important;
     color: white;
   }
+
+  .matches-table, .matches-paginator {
+    width: 70%;
+  }
+
+  .matches-data-view {
+    width: 70%;
+  }
+  
+  .mat-table {
+    display: table;
+  }
+
+  .mat-row:hover {
+    background-color: lightgrey;
+  }

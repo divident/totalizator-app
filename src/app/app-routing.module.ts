@@ -11,7 +11,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 const routes: Routes = [
   { path: '', redirectTo: '/matches', pathMatch: 'full'},
   { path: 'matches', component: MatchesComponent},
-  { path: 'match/:id', component: MatchDetailComponent},
+  { path: 'matches/:id', component: MatchDetailComponent},
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard]},
   { path: 'bets', component: BetComponent, canActivate: [AuthGuard]},
   { path: 'register', component: LoginFormComponent},

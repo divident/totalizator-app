@@ -12,3 +12,10 @@ export class Match {
     score_team_one: number;
     score_team_two: number;
 }
+
+export class Page {
+  count: number;
+  next: string;
+  previous: string;
+  results: Match[];
+}

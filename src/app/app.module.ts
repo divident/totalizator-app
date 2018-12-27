@@ -1,8 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatTabsModule,
-  MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule} from '@angular/material';
+import {
+  MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatTabsModule,
+  MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule,
+  MatAutocompleteModule
+} from '@angular/material';
 import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
 import { AppComponent } from './app.component';
@@ -17,17 +20,19 @@ import { AccountComponent } from './account/account.component';
 import { BetFormComponent } from './bet-form/bet-form.component';
 import { BetComponent } from './bet/bet.component';
 import { LoginFormComponent } from './login-form/login-form.component';
-import {FlexLayoutModule} from "@angular/flex-layout";
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { PasswordResetComponent } from './password-reset/password-reset.component';
-import {MatCardModule} from '@angular/material/card';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
     AppComponent,
     MatchesComponent,
     MatchDetailComponent,
-    LoginComponent,    
+    LoginComponent,
     HeaderComponent, AccountComponent, BetFormComponent, BetComponent, LoginFormComponent, PasswordResetComponent,
   ],
   imports: [
@@ -52,7 +57,10 @@ import {MatGridListModule} from '@angular/material/grid-list';
     RecaptchaFormsModule,
     FlexLayoutModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatAutocompleteModule
   ],
   providers: [
     {
@@ -61,6 +69,6 @@ import {MatGridListModule} from '@angular/material/grid-list';
     },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ LoginComponent, ]
+  entryComponents: [LoginComponent,]
 })
 export class AppModule { }

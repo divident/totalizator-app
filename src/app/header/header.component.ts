@@ -16,12 +16,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(public dialog: MatDialog,
-    private authService: AuthService ) { 
-    }
+    private authService: AuthService) {
+  }
 
   ngOnInit() {
+    this.subscription = this.authService.getUsername().subscribe(username => {
+      this.username = username
+      console.log("Subscribe username: ", this.username)
+    })
     this.authService.loadUserCredentials();
-    this.subscription = this.authService.getUsername().subscribe(name => {console.log(name); this.username=name})
+
   }
 
   ngOnDestroy() {
@@ -29,7 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   openLoginForm() {
-    let loginRef = this.dialog.open(LoginComponent, {width: '500px', height: '450px'});
+    let loginRef = this.dialog.open(LoginComponent, { width: '500px', height: '450px' });
 
     loginRef.afterClosed()
       .subscribe(result => {
