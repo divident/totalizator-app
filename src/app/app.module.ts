@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatTabsModule,
   MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule,
-  MatAutocompleteModule
+  MatAutocompleteModule, MatSnackBarModule
 } from '@angular/material';
 import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
@@ -26,6 +26,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { StatusPipe } from './status.pipe';
+import { BetHistoryComponent } from './bet-history/bet-history.component';
+import { ErrorsHandler } from './errors-handler';
+import { ErrorsComponent } from './errors/errors.component';
+import { ChargeDialogComponent } from './charge-dialog/charge-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +39,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatchesComponent,
     MatchDetailComponent,
     LoginComponent,
-    HeaderComponent, AccountComponent, BetFormComponent, BetComponent, LoginFormComponent, PasswordResetComponent,
+    HeaderComponent, AccountComponent, BetFormComponent, BetComponent, LoginFormComponent, PasswordResetComponent, ErrorDialogComponent, StatusPipe, BetHistoryComponent, ErrorsComponent, ChargeDialogComponent 
   ],
   imports: [
     BrowserModule,
@@ -60,15 +66,20 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatGridListModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSnackBarModule
   ],
   providers: [
+    {
+     provide: ErrorHandler,
+     useClass: ErrorsHandler
+    },
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: { siteKey: '6LcLGHwUAAAAAOFEYtdgPG842FwwtCzGsMjKM8Gf' } as RecaptchaSettings,
     },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [LoginComponent,]
+  entryComponents: [LoginComponent, ErrorDialogComponent, ChargeDialogComponent]
 })
 export class AppModule { }

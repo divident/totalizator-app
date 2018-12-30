@@ -6,29 +6,29 @@
     <p>
       <mat-form-field>
         <input matInput type="text" formControlName="username" placeholder="Username">
-        <mat-error>Username is required</mat-error>
+        <mat-error>Nazwa użytkownika musi mieć minimum 6 znaków</mat-error>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field>
         <input matInput type="text" formControlName="email" placeholder="Email">
-        <mat-error>Invalid email address</mat-error>
+        <mat-error>Niewłaściwy email</mat-error>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field>
         <input matInput type="password" formControlName="password1" placeholder="Password">
-        <mat-error>Password is required</mat-error>
-        <mat-hint [hidden]="!formErrors.password1">{{formErrors.password1}}</mat-hint>
+        <mat-error [hidden]="!formErrors.password1.minlength">Hasło musi mieć minimum 8 znaków</mat-error>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field>
         <input matInput type="password" formControlName="password2" placeholder="Confirm Password">
-        <mat-error>Passwords do not match</mat-error>
+        <mat-error>Hasła muszą być takie same</mat-error>
       </mat-form-field>
     </p>
     <re-captcha formControlName="captcha_token"></re-captcha>
+    <p></p>
     <button type="submit" mat-stroked-button [disabled]="registerForm.invalid">Register</button>
     </form>
   </div>
@@ -38,19 +38,21 @@
     <form #loginForm="ngForm" (ngSubmit)="login()">
       <p>
         <mat-form-field>
-          <input matInput type="text" [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}" placeholder="Username" #username="ngModel">
-          <mat-error>Username is required</mat-error>
+          <input matInput type="text" [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}" placeholder="Username" #username="ngModel" required>
+          <mat-error>Nazwa użytkownika jest wymagana</mat-error>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field>
-          <input matInput type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" placeholder="Password" #password="ngModel">
-          <mat-error>Password is required</mat-error>
+          <input matInput type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}" placeholder="Password" #password="ngModel" required>
+          <mat-error>Hasło jest wymagane</mat-error>
         </mat-form-field>
       </p>
       <button type="submit" mat-stroked-button [disabled]="loginForm.invalid">Login</button>
+      <p></p>
     </form>
     <mat-divider></mat-divider>
+    <p></p>
       <a routerLink="/reset-password" routerLinkActive="active">Forget password?</a>
     </div>
 </mat-tab>

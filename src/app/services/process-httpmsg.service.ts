@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 
-import {Observable, of} from 'rxjs'
-import {catchError, map, tap} from 'rxjs/operators'
+import { MatDialog } from '@angular/material';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProcessHttpmsgService {
+export class ProcessHttpMsgService {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
-  public handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    };
+  public handleError(error: string) {
+    console.log(error)
+    this.dialog.open(ErrorDialogComponent, {
+      data: {errorMsg: error}, width: '250px'});
   }
 }

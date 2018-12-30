@@ -1,41 +1,35 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { HttpResponse } from '@angular/common/http'
 import { Account } from '../shared/account';
 import { Transaction } from '../shared/transaction';
 import { baseURL } from '../shared/baseurl';
-import { catchError, tap} from 'rxjs/operators';
+import { tap} from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Redirect } from '../shared/redirect';
-import { ProcessHttpmsgService } from './process-httpmsg.service';
+import { ProcessHttpMsgService } from './process-httpmsg.service';
+import { SerachService } from '../shared/service-generic';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService {
+export class AccountService implements SerachService<Transaction> {
   private accountUrl = `${baseURL}accounts/`
   private transactionUrl = `${baseURL}transactions/`
   private chargeUrl = `${baseURL}payment/charge/`
 
   constructor(private http: HttpClient,
-              private processMsg: ProcessHttpmsgService,
+              private processMsg: ProcessHttpMsgService,
               private authService: AuthService) { }
 
   getAccount(): Observable<Account> {
     let httpOptions = this.authService.getAuthHttpHeader()
     return this.http.get<Account>(this.accountUrl, httpOptions)
-      .pipe(
-          catchError(this.processMsg.handleError<Account>('getAccount'))
-      )
   }
 
   getTransations(): Observable<Transaction[]> {
     let httpOptions = this.authService.getAuthHttpHeader()
     return this.http.get<Transaction[]>(this.transactionUrl, httpOptions)
-      .pipe(
-        catchError(this.processMsg.handleError<Transaction[]>('getTransaction'))
-      )
   }
 
   performCharge(amount: number): Observable<Redirect> {
@@ -43,7 +37,19 @@ export class AccountService {
     return this.http.post<Redirect>(this.chargeUrl, {'total_amount': amount}, httpOptions)
       .pipe(
         tap(res => console.log('Charge response ' + res.redirectUri)),
-        catchError(this.processMsg.handleError<Redirect>('performCharge'))
       )
+  }
+
+  searchData(...params: [string, string][]): Observable<Transaction[]> {
+    let httpParams = new HttpParams();
+    for(let [name, val] of params) {
+      if(val) {
+        httpParams = httpParams.append(name, val);
+      }
+     }
+
+    let authHeader = this.authService.getAuthHttpHeader();
+    let httpData = Object.assign({params: httpParams}, authHeader)
+    return this.http.get<Transaction[]>(this.transactionUrl, httpData);
   }
 }

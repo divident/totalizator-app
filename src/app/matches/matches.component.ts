@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatchService } from '../services/match.service';
-import { Match } from '../shared/match';
-import { MatchesDataSource } from './MatchesDataSource';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map, tap, debounceTime } from 'rxjs/operators';
+import { map, tap, startWith} from 'rxjs/operators';
 import { MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
+import { Match } from '../shared/match';
+import { BaseDataSource } from '../shared/base-data-source';
 
 @Component({
   selector: 'app-matches',
@@ -17,7 +17,7 @@ export class MatchesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  matches: MatchesDataSource;
+  matches: BaseDataSource<Match>;
   matchesCount: number;
   teams: string[];
   leagues: string[];
@@ -37,16 +37,18 @@ export class MatchesComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.matches = new MatchesDataSource(this.matchService);
-    this.matches.loadMatches();
+    this.matches = new BaseDataSource(this.matchService);
+    this.matches.loadData();
     this.matchService.getTeams().subscribe(teams => this.teams = teams)
     this.matchService.getLeagues().subscribe(leagues => this.leagues = leagues);
     this.filteredLeagues = this.leagueControl.valueChanges.pipe(
+      startWith(''),
       tap(value => console.log(value)),
       map(value => this._filter(value, this.leagues))
     )
 
     this.filteredTeams = this.teamControl.valueChanges.pipe(
+      startWith(''),
       tap(value => console.log(value)),
       map(value => this._filter(value, this.teams))
     )
@@ -78,7 +80,11 @@ export class MatchesComponent implements OnInit {
   }
 
   loadMatches() {
-    this.matches.loadMatches(this.queryData["team"], this.queryData["league"], this.paginator.pageIndex)
+    let query: [string, string][] = [];
+    for(let [key, val] of Object.entries(this.queryData)) {
+        query.push([key, val])
+    }
+    this.matches.loadData(...query)
   }
 
   clearFilters() {
@@ -87,10 +93,10 @@ export class MatchesComponent implements OnInit {
     }
     this.leagueControl.reset();
     this.teamControl.reset();
-    this.matches.loadMatches();
+    this.matches.loadData();
   }
  
-  selectMatch(row): void {
+  selectMatch(row: Match): void {
     console.log("Select match", row)
     this.router.navigate(["/matches", row.id])
   }

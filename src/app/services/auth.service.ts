@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { tap, shareReplay, map, catchError} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { ProcessHttpmsgService } from './process-httpmsg.service';
+import { ProcessHttpMsgService } from './process-httpmsg.service';
 import { User } from '../shared/user';
 import { baseURL } from '../shared/baseurl';
 import { authKey} from '../shared/config';
@@ -28,7 +28,7 @@ export class AuthService {
   private authUrl = `${baseURL}rest-auth/`;
   
   constructor(private http: HttpClient,
-    private processMsg: ProcessHttpmsgService,
+    private processMsg: ProcessHttpMsgService,
     private router: Router) { }
 
   storeUserCredentials(credentails: any) {
@@ -60,7 +60,6 @@ export class AuthService {
       tap(res => this.storeUserCredentials({username: res.user.username, token: res.token})),
       tap(res => this.sendUsername(res.user.username)),
       map(res => {return {'success': true, 'username': user.username}}),
-      shareReplay()
     )
   
   }

@@ -1,13 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ErrorHandler } from '@angular/core';
 import { Bet } from '../shared/bet';
 import { Match } from '../shared/match';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BetService } from '../services/bet.service';
+import { ProcessHttpMsgService } from '../services/process-httpmsg.service';
+import { MatSnackBar} from '@angular/material';
+import { ErrorsHandler } from '../errors-handler';
 
 @Component({
   selector: 'app-bet-form',
   templateUrl: './bet-form.component.html',
-  styleUrls: ['./bet-form.component.css']
+  styleUrls: ['./bet-form.component.css'],
+  providers: [{provide: ErrorHandler, useClass: ErrorsHandler}]
 })
 
 export class BetFormComponent implements OnInit {
@@ -18,8 +22,11 @@ export class BetFormComponent implements OnInit {
   teams = undefined;
   currentBetRate: number;
   winValue: number;
+
   constructor(private formBuilder: FormBuilder,
-    private betService: BetService) { }
+    private betService: BetService,
+    private errorMsg: ProcessHttpMsgService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -42,8 +49,12 @@ export class BetFormComponent implements OnInit {
       .subscribe(bet => {
         if (bet) {
           console.log(JSON.stringify(bet));
+          this.snackBar.open("Utworzono zakład", "", {
+            duration: 1000,
+            panelClass: 'green-snackbar'})
         }
-      })
+       }
+      )
   }
 
   onChanges(): void {

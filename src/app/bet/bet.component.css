@@ -1,3 +1,7 @@
-table {
+.bets-table {
     width: 70%;
+}
+
+.mat-table {
+    display: table;
 }

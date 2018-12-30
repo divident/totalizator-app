@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import { Component, OnInit, ErrorHandler } from '@angular/core';
+import { MatDialogRef} from '@angular/material';
 import { AuthService } from '../services/auth.service';
+import { ProcessHttpMsgService } from '../services/process-httpmsg.service';
+import { ErrorsHandler } from '../errors-handler';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [{provide: ErrorHandler, useClass: ErrorsHandler}]
 })
 export class LoginComponent implements OnInit {
 
@@ -13,7 +16,8 @@ export class LoginComponent implements OnInit {
   public errMsg: string;
 
   constructor(public dialogRef: MatDialogRef<LoginComponent>,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private errorMsg: ProcessHttpMsgService) { }
 
   ngOnInit() {
   }
@@ -26,8 +30,7 @@ export class LoginComponent implements OnInit {
           this.dialogRef.close(res);
       },
       error => {
-        console.log(error);
-        this.errMsg = error.message
+        this.errorMsg.handleError(error);
       })
   }
 

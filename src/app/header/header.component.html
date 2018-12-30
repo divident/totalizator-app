@@ -1,12 +1,13 @@
 <mat-toolbar color="primary">
-  <a mat-button routerLink="/matches" routerLinkActive="active">Matches</a>
-  <a *ngIf="!username" mat-button routerLink="/register" routerLinkActive="active">Register</a>
-  <a *ngIf="username" mat-button routerLink="/account" routerLinkActive="active">Account</a>
-  <a *ngIf="username" mat-button routerLink="/bets" routerLinkActive="active">Bets</a>
+  <a mat-button routerLink="/matches" routerLinkActive="active">Mecze</a>
+  <a *ngIf="!username" mat-button routerLink="/register" routerLinkActive="active">Rejestracja</a>
+  <a *ngIf="username" mat-button routerLink="/account" routerLinkActive="active">Rachunek</a>
+  <a *ngIf="username" mat-button routerLink="/bets" routerLinkActive="active">Aktywne Zakłady</a>
+  <a *ngIf="username" mat-button routerLink="/bets-history" routerLinkActive="active">Historia Zkaładów</a>
   <span class="fill-remaining-space"></span>
-  <a *ngIf="!username" mat-button (click)="openLoginForm()">Login</a>
+  <a *ngIf="!username" mat-button (click)="openLoginForm()">Zaloguj</a>
   <a *ngIf="username">{{username}}</a>
-  <a *ngIf="username" mat-button (click)="logOut()">Logout</a>  
+  <a *ngIf="username" mat-button (click)="logOut()">Wyloguj</a>  
 </mat-toolbar>
 
 <div class="container jumbotron"

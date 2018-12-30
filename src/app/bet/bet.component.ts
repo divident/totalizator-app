@@ -1,31 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ErrorHandler } from '@angular/core';
 import { BetService } from '../services/bet.service';
 import { Bet } from '../shared/bet';
 import { Router } from '@angular/router';
+import { BaseDataSource } from '../shared/base-data-source';
+import { ErrorsHandler } from '../errors-handler';
 
 @Component({
   selector: 'app-bet',
   templateUrl: './bet.component.html',
-  styleUrls: ['./bet.component.css']
+  styleUrls: ['./bet.component.css', '../app.component.css'],
+  providers: [{ provide: ErrorHandler, useClass: ErrorsHandler }]
 })
 export class BetComponent implements OnInit {
 
-  bets: Bet[];
-  displayedColumns: string[] = ['created_date', 'picked_team', 'price', 'reward', 'actions'];
+  betsDataSource: BaseDataSource<Bet>;
+
+  displayedColumns: string[] = ['created_date', 'picked_team', 'price', 'reward', 'status', 'actions'];
 
   constructor(private betService: BetService,
-    private route: Router) { }
+    private route: Router,
+    ) { }
 
   ngOnInit() {
-    this.getBets();
-  }
-
-  getBets() {
-    this.betService.getBets()
-      .subscribe(bets => {
-        this.bets = bets;
-        console.log(JSON.stringify(this.bets));
-      });
+    this.betsDataSource = new BaseDataSource<Bet>(this.betService);
+    this.betsDataSource.loadData();
   }
 
   selectRow(row: any) {
@@ -33,8 +31,11 @@ export class BetComponent implements OnInit {
   }
 
   deleteBet(betId: number) {
+
     console.log(`Delete bet with id ${betId}`);
-    this.betService.deleteBet(betId)
-      .subscribe(result => console.log(result));
+    if (confirm("Czy jesteś pewny")) {
+      this.betService.deleteBet(betId)
+        .subscribe(result => console.log(result));
+    }
   }
 }

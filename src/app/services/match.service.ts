@@ -6,7 +6,8 @@ import { catchError, map, tap, publish, refCount } from 'rxjs/operators';
 
 import { baseURL } from '../shared/baseurl';
 import { Match, Page } from '../shared/match';
-import { ProcessHttpmsgService } from './process-httpmsg.service'
+import { ProcessHttpMsgService } from './process-httpmsg.service'
+import { SerachService } from '../shared/service-generic';
 
 
 
@@ -15,36 +16,35 @@ import { ProcessHttpmsgService } from './process-httpmsg.service'
 })
 
 
-export class MatchService {
+export class MatchService  implements SerachService<Match> {
  
   match: Match;
   private matchesUrl = 'matches'
 
   constructor(private http: HttpClient,
-    private processMsg: ProcessHttpmsgService) { }
+    private processMsg: ProcessHttpMsgService) { }
 
   getMatches(): Observable<Page> {
     const url = `${baseURL}${this.matchesUrl}`;
     return this.http.get<Page>(url)
-      .pipe(
-        catchError(this.processMsg.handleError<Page>('getMatches'))
-      )
   }
 
   getMatch(id: number): Observable<Match> {
     const url = baseURL + `${this.matchesUrl}/${id}`
-    return this.http.get<Match>(url)
-      .pipe(
-        catchError(this.processMsg.handleError<Match>('getMatch'))
-      )
+    return this.http.get<Match>(url) 
   }
 
-  serachMatches(team='', league='', pageNumber = 0): Observable<Match[]> {
+  searchData(...params: [string, string][]): Observable<Match[]> {
+    let httpParams = new HttpParams()
+    for(let [name, val] of params) {
+      if(val) {  
+        httpParams = httpParams.append(name, val);
+        console.log("Setting: ", name, val)
+      }
+    }
+    console.log("HttpParams: ", httpParams)
     return this.http.get<Page>(baseURL + this.matchesUrl, {
-      params: new HttpParams()
-        .set('page', pageNumber.toString())
-        .set('team', team)
-        .set('league', league)
+      params: httpParams
     }).pipe(
       map(res => res.results)
     )

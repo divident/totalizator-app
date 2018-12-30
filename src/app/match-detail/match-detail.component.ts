@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ErrorHandler } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -7,12 +7,15 @@ import { Comment } from '../shared/comment';
 import { CommentsService } from '../services/comments.service';
 import { MatchService } from '../services/match.service';
 import { BetFormComponent } from '../bet-form/bet-form.component';
+import { ProcessHttpMsgService } from '../services/process-httpmsg.service';
+import { ErrorsHandler } from '../errors-handler';
 
 
 @Component({
   selector: 'app-match-detail',
   templateUrl: './match-detail.component.html',
-  styleUrls: ['./match-detail.component.css']
+  styleUrls: ['./match-detail.component.css'],
+  providers: [{provide: ErrorHandler, useClass: ErrorsHandler}]
 })
 
 
@@ -41,7 +44,8 @@ export class MatchDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private matchService: MatchService,
               private commentsService: CommentsService,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private errorMsg: ProcessHttpMsgService) { }
 
   ngOnInit() {
     this.createForm();
@@ -60,11 +64,12 @@ export class MatchDetailComponent implements OnInit {
     this.commentForm.value['match'] = this.match.id;
     console.log(this.commentForm.value);
     this.commentsService.postComment(this.commentForm.value)
-      .subscribe((comment) => {
-        if (comment) {
-          this.comments.push(<Comment>comment);
-        }
-      });
+      .subscribe(
+        (comment) => {
+          if (comment) {
+            this.comments.push(<Comment>comment);
+          }},
+        error => this.errorMsg.handleError("Zaloguj się aby dodać komentarz"));
     console.log(this.comment);
     this.commentForm.reset({
       comment: ''

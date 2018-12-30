@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ErrorHandler } from '@angular/core';
 import { FormBuilder, FormControl, Validators, AbstractControl, FormGroup } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
-import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
 import { Router } from '@angular/router';
-import { HeaderComponent } from '../header/header.component';
 import { Subscription } from 'rxjs';
+import { ProcessHttpMsgService } from '../services/process-httpmsg.service';
+import { ErrorsHandler } from '../errors-handler';
 
 @Component({
   selector: 'app-login-form',
@@ -16,6 +16,10 @@ import { Subscription } from 'rxjs';
       provide: RECAPTCHA_SETTINGS,
       useValue: { siteKey: '6LeBbHwUAAAAAAl7FUKRvrJGvZJF-2JY_r4cZ2SW' } as RecaptchaSettings,
     },
+    {
+      provide: ErrorHandler,
+      useClass: ErrorsHandler
+    }
   ],
 })
 export class LoginFormComponent implements OnInit {
@@ -33,17 +37,20 @@ export class LoginFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, 
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private errorMsg: ProcessHttpMsgService) { }
 
   ngOnInit() {
     this.createForm()
-    this.subscription = this.authService.getUsername().subscribe(name => {console.log(name); this.username=name})
+    this.subscription = this.authService.getUsername().subscribe(
+      name => {console.log(name); this.username=name},
+      )
   }
 
   createForm(): void {
     this.registerForm = this.formBuilder.group({
-      username: new FormControl('', [Validators.required]),
-      password1: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      password1: new FormControl('', [Validators.required, Validators.minLength(8)]),
       password2: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       captcha_token: new FormControl(null, Validators.required)
@@ -73,12 +80,6 @@ export class LoginFormComponent implements OnInit {
           this.router.navigate([''])  
         })
       },
-      err => {
-        console.log("Error " + err)
-        if(err.status==400) {
-          this.showErrorMessages(err.error)
-        }
-      }
     )
   }
 
@@ -89,7 +90,10 @@ export class LoginFormComponent implements OnInit {
         console.log(res),
         this.router.navigate([''])
       },
-      err => console.log("Error " + JSON.stringify(err))
+      error => {
+        this.errorMsg.handleError("Niepoprawne hasło lub nazwa użytkownika")
+      }
+      
     )
   }
 
@@ -108,7 +112,7 @@ export class LoginFormComponent implements OnInit {
     if (this.registerForm.hasError('notSame')) {
       let field = "password2"
       const control = form.get([field]);
-      this.formErrors[field] = control.errors
+      this.formErrors[field] = control.errors['notSame']
     }
     for(const field in this.formErrors) {
       this.formErrors[field] = ''
@@ -116,7 +120,7 @@ export class LoginFormComponent implements OnInit {
       if (control && control.dirty && !control.valid) {
         for(const key in control.errors) {
           console.log("Error key " + key)
-          this.formErrors[field] = control.errors
+          this.formErrors[field] += control.errors[key]
         }
       }
     }

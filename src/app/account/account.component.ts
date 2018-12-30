@@ -1,24 +1,31 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ErrorHandler } from '@angular/core';
 import { Account } from '../shared/account';
 import { Transaction } from '../shared/transaction';
 import { AccountService } from '../services/account.service';
+import { BaseDataSource } from '../shared/base-data-source';
+import { ErrorsHandler } from '../errors-handler';
+import { ChargeDialogComponent } from '../charge-dialog/charge-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css', '../app.component.css'],
+  providers: [{ provide: ErrorHandler, useClass: ErrorsHandler }]
 })
 export class AccountComponent implements OnInit {
 
   private account: Account;
-  private transactions: Transaction[];
+  private transactionsDataSource: BaseDataSource<Transaction>;
   private displayedColumns: string[] = ['created_date', 'title', 'amount'];
   constructor(private accountService: AccountService,
-              private zone : NgZone) { }
+    private zone: NgZone,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getAccount();
-    this.getTransactions();
+    this.transactionsDataSource = new BaseDataSource<Transaction>(this.accountService);
+    this.transactionsDataSource.loadData();
   }
 
   getAccount(): void {
@@ -26,22 +33,20 @@ export class AccountComponent implements OnInit {
       .subscribe(account => this.account = account)
   }
 
-  getTransactions(): void {
-    this.accountService.getTransations()
-      .subscribe(transactions => {
-        this.transactions = transactions;
-        console.log(transactions[0])})
-  }
-
-  chargeAccount(amount: number) : void {
-    this.accountService.performCharge(amount)
-      .subscribe(res =>
-        this.zone.runOutsideAngular(() => {
-          window.location.href = res.redirectUri;
-        })
-      ),
-      err => {
-        console.log(err)
-      }
+  chargeAccount(): void {
+    let dialog = this.dialog.open(ChargeDialogComponent);
+    dialog.afterClosed().subscribe(
+      amount => {
+        console.log(amount)
+        if (amount) {
+          this.accountService.performCharge(amount*100)
+            .subscribe(res => {
+              console.log("Charge: ", res)
+              this.zone.runOutsideAngular(() => {
+                window.location.href = res.redirectUri;
+              })
+            })
+        }
+      })
   }
 }

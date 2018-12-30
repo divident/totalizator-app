@@ -2,7 +2,7 @@
     <div class="spinner-container" *ngIf="betsDataSource.loading$ | async">
         <mat-spinner></mat-spinner>
     </div>
-    <table mat-table [dataSource]="betsDataSource" class="bets-table mat-elevation-z8">
+    <table mat-table [dataSource]="betsDataSource" class="bets-history-table mat-elevation-z8">
         <ng-container matColumnDef="created_date">
             <th mat-header-cell *matHeaderCellDef> Data </th>
             <td mat-cell *matCellDef="let element">{{element.created_date | date:'medium'}}</td>
@@ -22,10 +22,6 @@
         <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef> Status </th>
             <td mat-cell *matCellDef="let element">{{element.status | status }} </td>
-        </ng-container>
-        <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef> Anuluj zakład </th>
-            <td mat-cell *matCellDef="let element"><button (click)="deleteBet(element.id)" mat-button>Usuń</button></td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
