@@ -49,4 +49,11 @@ export class AccountComponent implements OnInit {
         }
       })
   }
+  
+  getPriceWithSign(sourceAccount: string, price: number) {
+    if(sourceAccount == this.account.number) {
+      return -price;
+    }
+    return price;
+  }
 }

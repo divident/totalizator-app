@@ -24,6 +24,6 @@
         <span>{{winValue}} zł</span>
     </label>
   </p>
-  <button type="submit" mat-stroked-button class="background-primary text-floral-white" [disabled]="betForm.invalid">Submit</button>
+  <button [disabled]="!(available)" type="submit" mat-stroked-button class="background-primary text-floral-white" [disabled]="betForm.invalid">Submit</button>
 </form>
 </div>

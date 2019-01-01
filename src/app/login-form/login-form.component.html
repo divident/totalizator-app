@@ -1,6 +1,6 @@
 <div class="container" fxLeyout="column" fxLayoutAlign="center">
   <mat-tab-group>
-  <mat-tab label="Register">
+  <mat-tab label="Rejestracja">
   <div fxFlex="80" fxFlexAlign="center" fxLayoutGap="20px">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <p>
@@ -29,11 +29,11 @@
     </p>
     <re-captcha formControlName="captcha_token"></re-captcha>
     <p></p>
-    <button type="submit" mat-stroked-button [disabled]="registerForm.invalid">Register</button>
+    <button type="submit" mat-stroked-button [disabled]="registerForm.invalid">Rejestracja</button>
     </form>
   </div>
 </mat-tab>
-<mat-tab label="Login">
+<mat-tab label="Logowanie">
     <div fxFlex="80" fxFlexAlign="center" fxLayoutGap="20px">
     <form #loginForm="ngForm" (ngSubmit)="login()">
       <p>
@@ -48,7 +48,7 @@
           <mat-error>Hasło jest wymagane</mat-error>
         </mat-form-field>
       </p>
-      <button type="submit" mat-stroked-button [disabled]="loginForm.invalid">Login</button>
+      <button type="submit" mat-stroked-button [disabled]="loginForm.invalid">Logowanie</button>
       <p></p>
     </form>
     <mat-divider></mat-divider>

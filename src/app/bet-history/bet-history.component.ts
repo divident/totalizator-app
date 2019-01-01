@@ -12,13 +12,13 @@ export class BetHistoryComponent implements OnInit {
 
   betsDataSource: BaseDataSource<Bet>;
 
-  displayedColumns: string[] = ['created_date', 'picked_team', 'price', 'reward', 'status'];
+  displayedColumns: string[] = ['created_date', 'picked_team', 'price', 'reward', 'status', 'score_1', 'score_2'];
 
   constructor(private betService: BetService) { }
 
   ngOnInit() {
     this.betsDataSource = new BaseDataSource<Bet>(this.betService);
-    this.betsDataSource.loadData(["status", BetStatus.WIN.valueOf.toString()]);
+    this.betsDataSource.loadData(["status", BetStatus.WIN.toString()]);
     
 
   }

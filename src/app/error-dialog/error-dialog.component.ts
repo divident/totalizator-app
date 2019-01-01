@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Injectable } from '@angular/core';
+import { Component, OnInit, Inject, Injectable, NgZone } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -8,12 +8,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class ErrorDialogComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<any>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private ngZone: NgZone,
+    private dialogRef: MatDialogRef<ErrorDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }
-  
+
   public closeDialog() {
-    this.dialogRef.close();
+    this.ngZone.run(() => {
+      this.dialogRef.close();
+    });
   }
 }

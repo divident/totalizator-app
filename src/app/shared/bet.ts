@@ -1,12 +1,15 @@
+import { Match } from "./match";
+
 export class Bet {
     id: number;
     created_date: Date;
     price: number;
-    match: number;
     player: number;
     picked_team: string;
     reward: number;
     status: number;
+    match_id: number;
+    match: Match;
 };
 
 export enum BetStatus {

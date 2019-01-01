@@ -26,7 +26,8 @@ export class MatchDetailComponent implements OnInit {
   comment: Comment;
   submitted = null;
   showForm = true;
-  
+  available: boolean;
+
   private comments: Comment[];
   private match: Match;
 
@@ -81,7 +82,11 @@ export class MatchDetailComponent implements OnInit {
   getMatch(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.matchService.getMatch(id)
-        .subscribe(match => this.match = match)
+        .subscribe(match => {
+          this.match = match,
+          this.available = match.score_team_one == -1 ? true : false;
+          console.log(this.available)
+        })
     this.getComments(id)
   }
   

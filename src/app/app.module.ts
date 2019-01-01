@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatTabsModule,
+  MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatTabsModule, MatSlideToggleModule,
   MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule,
   MatAutocompleteModule, MatSnackBarModule
 } from '@angular/material';
@@ -67,7 +67,8 @@ import { ChargeDialogComponent } from './charge-dialog/charge-dialog.component';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule
   ],
   providers: [
     {

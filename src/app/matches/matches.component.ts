@@ -22,23 +22,29 @@ export class MatchesComponent implements OnInit {
   teams: string[];
   leagues: string[];
 
+  available = false;
   filteredTeams: Observable<string[]>;
   filteredLeagues: Observable<string[]>;
   leagueControl = new FormControl();
   teamControl = new FormControl();
 
-  private displayedCoulumns: string[] = ["league", "team_one", "team_two", "exchange", "play_date"]
+  private displayedCoulumns: string[] = ["league", "team_one", "team_two", "exchange", 
+  "play_date", "score_team_one", "score_team_two"]
+
   queryData = {
     "team": "",
-    "league": ""
+    "league": "",
+    "page": "0",
+    "available": "1"
   }
+
 
   constructor(private matchService: MatchService,
     private router: Router) { }
 
   ngOnInit() {
     this.matches = new BaseDataSource(this.matchService);
-    this.matches.loadData();
+    this.loadMatches();
     this.matchService.getTeams().subscribe(teams => this.teams = teams)
     this.matchService.getLeagues().subscribe(leagues => this.leagues = leagues);
     this.filteredLeagues = this.leagueControl.valueChanges.pipe(
@@ -58,6 +64,12 @@ export class MatchesComponent implements OnInit {
     this.paginator.page.pipe(
       tap(() => this.loadMatches())
     ).subscribe();
+  }
+
+  private setAvailable() {
+    console.log("Available ", this.available)
+    this.queryData["available"] = !this.available ? "1" : "0";
+    this.loadMatches();
   }
 
   private _filter(value: string, options: string[]): string[] {
@@ -81,14 +93,21 @@ export class MatchesComponent implements OnInit {
 
   loadMatches() {
     let query: [string, string][] = [];
+    query.push()
     for(let [key, val] of Object.entries(this.queryData)) {
+      console.log(key, val)
+      if(key == "page"){
+        query.push([key, this.paginator.pageIndex.toString()]);
+      }else {
         query.push([key, val])
+      }
     }
     this.matches.loadData(...query)
   }
 
   clearFilters() {
     for (let key in this.queryData) {
+      if(key == "page") continue;
       this.queryData[key] = ""
     }
     this.leagueControl.reset();
@@ -99,5 +118,14 @@ export class MatchesComponent implements OnInit {
   selectMatch(row: Match): void {
     console.log("Select match", row)
     this.router.navigate(["/matches", row.id])
+  }
+
+  getDisplayedColumns(): string[] {
+    if (!this.available) {
+      return this.displayedCoulumns.filter(res => (!res.includes("score")))
+    }
+    else {
+      return this.displayedCoulumns;
+    }
   }
 }

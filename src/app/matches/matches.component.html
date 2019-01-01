@@ -23,8 +23,12 @@
                     </mat-autocomplete>
                 </mat-form-field>
             </p>
-            <button mat-stroked-button (click)="clearFilters()">Clear filters</button>
+            <button mat-stroked-button (click)="clearFilters()">Wyczyść filtry</button>
         </form>
+        <p></p>
+        <mat-slide-toggle [(ngModel)]="available" [checked]="checked" (change)="setAvailable()">
+            Pokaż mecze historyczne
+        </mat-slide-toggle>
     </div>
     <div fxLayout="column" class="matches-data-view">
         <div class="spinner-container" *ngIf="matches.loading$ | async">
@@ -54,9 +58,16 @@
                     <th mat-header-cell *matHeaderCellDef> Data Spotkania </th>
                     <td mat-cell *matCellDef="let row"> {{row.play_date | date:'medium'}}</td>
                 </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedCoulumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedCoulumns;" (click)='selectMatch(row)'></tr>
-
+                <ng-container matColumnDef="score_team_one">
+                    <th mat-header-cell *matHeaderCellDef> Wynik zespołu 1 </th>
+                    <td mat-cell *matCellDef="let row"> {{row.score_team_one}}</td>
+                </ng-container>
+                <ng-container matColumnDef="score_team_two">
+                    <th mat-header-cell *matHeaderCellDef> Wynik zespołu 2 </th>
+                    <td mat-cell *matCellDef="let row"> {{row.score_team_two}}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+                <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();" (click)='selectMatch(row)'></tr>
             </mat-table>
         </div>
     </div>

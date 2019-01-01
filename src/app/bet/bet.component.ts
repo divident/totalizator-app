@@ -35,7 +35,10 @@ export class BetComponent implements OnInit {
     console.log(`Delete bet with id ${betId}`);
     if (confirm("Czy jesteś pewny")) {
       this.betService.deleteBet(betId)
-        .subscribe(result => console.log(result));
+        .subscribe(result => {
+          this.betsDataSource.loadData();
+          console.log(result)
+        });
     }
   }
 }

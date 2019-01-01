@@ -23,6 +23,14 @@
             <th mat-header-cell *matHeaderCellDef> Status </th>
             <td mat-cell *matCellDef="let element">{{element.status | status }} </td>
         </ng-container>
+        <ng-container matColumnDef="score_1">
+            <th mat-header-cell *matHeaderCellDef>Wynik zespołu 1</th>
+            <td mat-cell *matCellDef="let element">{{element.match.score_team_one}}</td>
+        </ng-container>
+        <ng-container matColumnDef="score_2">
+            <th mat-header-cell *matHeaderCellDef>Wynik zespołu 2</th>
+            <td mat-cell *matCellDef="let element">{{element.match.score_team_two}}</td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
