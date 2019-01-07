@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { Account } from '../shared/account';
 import { Transaction } from '../shared/transaction';
 import { baseURL } from '../shared/baseurl';
-import { tap} from 'rxjs/operators';
+import { tap, map} from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Redirect } from '../shared/redirect';
 import { ProcessHttpMsgService } from './process-httpmsg.service';
 import { SerachService } from '../shared/service-generic';
+import { Page } from '../shared/match';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,7 @@ export class AccountService implements SerachService<Transaction> {
       )
   }
 
-  searchData(...params: [string, string][]): Observable<Transaction[]> {
+  searchData(...params: [string, string][]): Observable<[Transaction[], number]> {
     let httpParams = new HttpParams();
     for(let [name, val] of params) {
       if(val) {
@@ -50,6 +51,13 @@ export class AccountService implements SerachService<Transaction> {
 
     let authHeader = this.authService.getAuthHttpHeader();
     let httpData = Object.assign({params: httpParams}, authHeader)
-    return this.http.get<Transaction[]>(this.transactionUrl, httpData);
+    return this.http.get<Page<Transaction>>(this.transactionUrl, httpData).pipe(
+      map(res => {
+        let transaction = res.results;
+        let count = res.count;
+        let output: [Transaction[], number] = [transaction, count]
+        return output
+      })
+    )
   }
 }

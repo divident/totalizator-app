@@ -36,7 +36,7 @@ export class BetFormComponent implements OnInit {
     this.teams = [this.match.team_one, this.match.team_two, 'Remis']
     this.betForm = this.formBuilder.group({
       price: 5,
-      picked_team: this.teams[0]
+      picked_team: 0
     });
     this.available = this.match.score_team_one == -1 ? true : false;
     this.currentBetRate = this.match.team_one_win_exchange;
@@ -56,6 +56,10 @@ export class BetFormComponent implements OnInit {
             panelClass: 'green-snackbar'})
         }
        })
+  }
+
+  getTeamIndex(team: string): number {
+    return this.teams.indexOf(team)
   }
 
   onChanges(): void {

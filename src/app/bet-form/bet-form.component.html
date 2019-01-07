@@ -15,7 +15,7 @@
   <mat-form-field>
     <label>Zespół:
       <mat-select disableOptionCentering formControlName="picked_team">
-        <mat-option *ngFor="let team of teams" [value]="team">{{team}}</mat-option>
+        <mat-option *ngFor="let team of teams" [value]="getTeamIndex(team)">{{team}}</mat-option>
       </mat-select>
     </label>
   </mat-form-field>

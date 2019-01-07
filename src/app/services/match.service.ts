@@ -24,9 +24,9 @@ export class MatchService  implements SerachService<Match> {
   constructor(private http: HttpClient,
     private processMsg: ProcessHttpMsgService) { }
 
-  getMatches(): Observable<Page> {
+  getMatches(): Observable<Page<Match>> {
     const url = `${baseURL}${this.matchesUrl}`;
-    return this.http.get<Page>(url)
+    return this.http.get<Page<Match>>(url)
   }
 
   getMatch(id: number): Observable<Match> {
@@ -34,7 +34,7 @@ export class MatchService  implements SerachService<Match> {
     return this.http.get<Match>(url) 
   }
 
-  searchData(...params: [string, string][]): Observable<Match[]> {
+  searchData(...params: [string, string][]): Observable<[Match[], number]> {
     let httpParams = new HttpParams()
     for(let [name, val] of params) {
       if(val) {  
@@ -43,10 +43,15 @@ export class MatchService  implements SerachService<Match> {
       }
     }
     console.log("HttpParams: ", httpParams)
-    return this.http.get<Page>(baseURL + this.matchesUrl, {
+    return this.http.get<Page<Match>>(baseURL + this.matchesUrl, {
       params: httpParams
     }).pipe(
-      map(res => res.results)
+      map(res => {
+        let matches = res.results;
+        let count = res.count;
+        let output: [Match[], number] = [matches, count]
+        return output
+      })
     )
   }
 

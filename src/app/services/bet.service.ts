@@ -6,6 +6,8 @@ import { baseURL } from '../shared/baseurl';
 import { Bet } from '../shared/bet';
 import { Observable } from 'rxjs';
 import { SerachService } from '../shared/service-generic';
+import { Page } from '../shared/match'
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +26,10 @@ export class BetService implements SerachService<Bet> {
     return this.http.post(this.betUrl, bet, authHeader)
   }
 
-  getBets() : Observable<Bet[]> {
+  getBets() : Observable<Page<Bet>> {
     let authHeader = this.authService.getAuthHttpHeader();
     console.log('getBets');
-    return this.http.get<Bet[]>(this.betUrl, authHeader)
+    return this.http.get<Page<Bet>>(this.betUrl, authHeader)
   }
 
   deleteBet(betId: number): Observable<any> {
@@ -36,7 +38,7 @@ export class BetService implements SerachService<Bet> {
     return this.http.delete(this.betUrl + betId, authHeader)
   }
 
-  searchData(...params: [string, string][]): Observable<Bet[]> {
+  searchData(...params: [string, string][]): Observable<[Bet[], number]> {
     let httpParams = new HttpParams();
     for(let [name, val] of params) {
       if(val) {
@@ -46,6 +48,13 @@ export class BetService implements SerachService<Bet> {
     let authHeader = this.authService.getAuthHttpHeader();
     console.log('search bets');
     let httpData = Object.assign({params: httpParams}, authHeader)
-    return this.http.get<Bet[]>(this.betUrl, httpData);
+    return this.http.get<Page<Bet>>(this.betUrl, httpData).pipe(
+      map(res => {
+        let bets = res.results;
+        let count = res.count;
+        let output: [Bet[], number] = [bets, count]
+        return output
+      })
+    )
   }
 }

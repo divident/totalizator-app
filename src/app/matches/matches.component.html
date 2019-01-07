@@ -35,7 +35,7 @@
             <mat-spinner></mat-spinner>
         </div>
         <div [hidden]="!matches.loading$">
-            <mat-paginator class="matches-paginator" [length]="matchesCount" [pageSize]="30"></mat-paginator>
+            <mat-paginator class="matches-paginator" [length]="matchesCount" [pageSize]="15"></mat-paginator>
             <mat-table class="matches-table mat-elevation-z9" [dataSource]="matches">
                 <ng-container matColumnDef="league">
                     <th mat-header-cell *matHeaderCellDef> Liga </th>

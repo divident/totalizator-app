@@ -26,7 +26,7 @@ export class LoginFormComponent implements OnInit {
   registerForm: FormGroup;
   subscription: Subscription;
   username: string;
-  user = {username: '', password: '', remember: false};
+  user = { username: '', password: '', remember: false };
 
   formErrors = {
     'username': '',
@@ -35,7 +35,7 @@ export class LoginFormComponent implements OnInit {
     'captcha_token': ''
   }
 
-  constructor(private formBuilder: FormBuilder, 
+  constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private errorMsg: ProcessHttpMsgService) { }
@@ -43,8 +43,8 @@ export class LoginFormComponent implements OnInit {
   ngOnInit() {
     this.createForm()
     this.subscription = this.authService.getUsername().subscribe(
-      name => {console.log(name); this.username=name},
-      )
+      name => { console.log(name); this.username = name },
+    )
   }
 
   createForm(): void {
@@ -55,18 +55,20 @@ export class LoginFormComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       captcha_token: new FormControl(null, Validators.required)
     },
-    {
-      validator: this.checkPasswords
-    })
-    this.registerForm.valueChanges.subscribe(data => this.onValueChanges(data))
+      {
+        validator: this.checkPasswords
+      })
   }
 
-  checkPasswords(group: FormGroup) { 
-    let pass = group.controls.password1.value;
-    let confirmPass = group.controls.password2.value;
-
-    return pass === confirmPass ? null : { notSame: true }     
-}
+  checkPasswords(group: FormGroup) {
+    let pass1 = group.get("password1").value
+    let pass2 = group.get("password2").value
+    if (pass1 === pass2) {
+      return null;
+    } else {
+      group.get("password2").setErrors({"errors": true })
+    }
+  }
 
   onSubmit() {
     console.log(this.registerForm.value)
@@ -77,7 +79,7 @@ export class LoginFormComponent implements OnInit {
         this.user.username = this.registerForm.value.username
         this.authService.logIn(this.user).subscribe(usr => {
           console.log('Login as ' + usr)
-          this.router.navigate([''])  
+          this.router.navigate([''])
         })
       },
     )
@@ -88,41 +90,21 @@ export class LoginFormComponent implements OnInit {
     this.authService.logIn(this.user).subscribe(
       res => {
         console.log(res),
-        this.router.navigate([''])
+          this.router.navigate([''])
       },
       error => {
         this.errorMsg.handleError("Niepoprawne hasło lub nazwa użytkownika")
       }
-      
+
     )
   }
 
-  showErrorMessages(error: {string: Array<string>}) {
-    for(let [key, value] of Object.entries(error)){
-      if(key in this.formErrors) {
-        this.formErrors[key] += value + " " 
+  showErrorMessages(error: { string: Array<string> }) {
+    for (let [key, value] of Object.entries(error)) {
+      if (key in this.formErrors) {
+        this.formErrors[key] += value + " "
       }
     }
     console.log("Errors from server " + JSON.stringify(this.formErrors))
-  }
-
-  onValueChanges(data?: any) {
-    if(!this.registerForm) { return; }
-    const form = this.registerForm;
-    if (this.registerForm.hasError('notSame')) {
-      let field = "password2"
-      const control = form.get([field]);
-      this.formErrors[field] = control.errors['notSame']
-    }
-    for(const field in this.formErrors) {
-      this.formErrors[field] = ''
-      const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
-        for(const key in control.errors) {
-          console.log("Error key " + key)
-          this.formErrors[field] += control.errors[key]
-        }
-      }
-    }
   }
 }

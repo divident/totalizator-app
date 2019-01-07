@@ -10,6 +10,7 @@
     <p></p>
     <button mat-stroked-button (click)="chargeAccount()">Doładuj konto</button>
   </div>
+  <mat-paginator class="bets-paginator" [length]="transactionCount" [pageSize]="15" #pag></mat-paginator>
   <table mat-table [dataSource]="transactionsDataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="created_date">
       <th mat-header-cell *matHeaderCellDef> Data </th>

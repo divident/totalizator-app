@@ -13,9 +13,9 @@ export class Match {
     score_team_two: number;
 }
 
-export class Page {
+export class Page<T> {
   count: number;
   next: string;
   previous: string;
-  results: Match[];
+  results: T[];
 }

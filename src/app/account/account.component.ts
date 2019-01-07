@@ -1,11 +1,12 @@
-import { Component, OnInit, NgZone, ErrorHandler } from '@angular/core';
+import { Component, OnInit, NgZone, ErrorHandler, ViewChild } from '@angular/core';
 import { Account } from '../shared/account';
 import { Transaction } from '../shared/transaction';
 import { AccountService } from '../services/account.service';
 import { BaseDataSource } from '../shared/base-data-source';
 import { ErrorsHandler } from '../errors-handler';
 import { ChargeDialogComponent } from '../charge-dialog/charge-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatPaginator } from '@angular/material';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-account',
@@ -14,8 +15,15 @@ import { MatDialog } from '@angular/material';
   providers: [{ provide: ErrorHandler, useClass: ErrorsHandler }]
 })
 export class AccountComponent implements OnInit {
+  
+  @ViewChild('pag') paginator: MatPaginator;
+
+  queryData = {
+    "page": "1",
+  }
 
   private account: Account;
+  private transactionCount: number;
   private transactionsDataSource: BaseDataSource<Transaction>;
   private displayedColumns: string[] = ['created_date', 'title', 'amount'];
   constructor(private accountService: AccountService,
@@ -25,7 +33,8 @@ export class AccountComponent implements OnInit {
   ngOnInit() {
     this.getAccount();
     this.transactionsDataSource = new BaseDataSource<Transaction>(this.accountService);
-    this.transactionsDataSource.loadData();
+    this.loadTransactions()
+    this.transactionsDataSource.getDataLength().subscribe(res => this.transactionCount = res)
   }
 
   getAccount(): void {
@@ -49,11 +58,32 @@ export class AccountComponent implements OnInit {
         }
       })
   }
+
+  ngAfterViewInit(): void {
+    console.log('paginator', this.paginator)
+    this.paginator.page.pipe(
+      tap(() => this.loadTransactions())
+    ).subscribe();
+  }
   
   getPriceWithSign(sourceAccount: string, price: number) {
     if(sourceAccount == this.account.number) {
       return -price;
     }
     return price;
+  }
+
+  loadTransactions() {
+    let query: [string, string][] = [];
+    query.push()
+    for(let [key, val] of Object.entries(this.queryData)) {
+      console.log(key, val)
+      if(key == "page"){
+        query.push([key, (this.paginator.pageIndex + 1).toString()]);
+      }else {
+        query.push([key, val])
+      }
+    }
+    this.transactionsDataSource.loadData(...query)
   }
 }

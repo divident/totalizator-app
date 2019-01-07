@@ -15,5 +15,5 @@ export class StatusPipe implements PipeTransform {
       return "oczekuje";
     }
   }
-
 }
+

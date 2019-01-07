@@ -10,7 +10,7 @@ export class ErrorsHandler implements ErrorHandler {
     handleError(error: Error) {
         const notificationService = this.injector.get(ProcessHttpMsgService);
         const router = this.injector.get(Router);
-
+        console.log(error)
         if (error instanceof HttpErrorResponse) {
             if(!navigator.onLine){
                 return notificationService.handleError("Brak połączenia internetowego")
@@ -18,12 +18,14 @@ export class ErrorsHandler implements ErrorHandler {
                 if(error.status == 401){
                     return notificationService.handleError("Zaloguj się aby wykonać akcję")   
                 }
-                return notificationService.handleError(`${error.status} - ${error.message}`)
+                let message = ""
+                for(let key in error.error)
+                    message += `${error.error[key]}\n`
+                return notificationService.handleError(message)
             }
         } else {
             router.navigate(['/error'], {queryParams: {error: error}});
         }
-        console.log("ERROR HANDLER")
-        console.error('+++++++++', error);
+        
     }
 }

@@ -32,6 +32,7 @@ import { BetHistoryComponent } from './bet-history/bet-history.component';
 import { ErrorsHandler } from './errors-handler';
 import { ErrorsComponent } from './errors/errors.component';
 import { ChargeDialogComponent } from './charge-dialog/charge-dialog.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { ChargeDialogComponent } from './charge-dialog/charge-dialog.component';
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatSnackBarModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTooltipModule
   ],
   providers: [
     {

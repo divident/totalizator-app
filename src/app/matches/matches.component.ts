@@ -34,7 +34,7 @@ export class MatchesComponent implements OnInit {
   queryData = {
     "team": "",
     "league": "",
-    "page": "0",
+    "page": "1",
     "available": "1"
   }
 
@@ -58,6 +58,8 @@ export class MatchesComponent implements OnInit {
       tap(value => console.log(value)),
       map(value => this._filter(value, this.teams))
     )
+
+    this.matches.getDataLength().subscribe(res => this.matchesCount = res)
   }
 
   ngAfterViewInit(): void {
@@ -97,7 +99,7 @@ export class MatchesComponent implements OnInit {
     for(let [key, val] of Object.entries(this.queryData)) {
       console.log(key, val)
       if(key == "page"){
-        query.push([key, this.paginator.pageIndex.toString()]);
+        query.push([key, (this.paginator.pageIndex + 1).toString()]);
       }else {
         query.push([key, val])
       }
