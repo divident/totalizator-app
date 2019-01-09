@@ -7,6 +7,7 @@ import { ErrorsHandler } from '../errors-handler';
 import { ChargeDialogComponent } from '../charge-dialog/charge-dialog.component';
 import { MatDialog, MatPaginator } from '@angular/material';
 import { tap } from 'rxjs/operators';
+import { DateFormComponent } from '../date-form/date-form.component';
 
 @Component({
   selector: 'app-account',
@@ -14,9 +15,11 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./account.component.css', '../app.component.css'],
   providers: [{ provide: ErrorHandler, useClass: ErrorsHandler }]
 })
+
 export class AccountComponent implements OnInit {
   
   @ViewChild('pag') paginator: MatPaginator;
+  @ViewChild(DateFormComponent) dateForm: DateFormComponent;
 
   queryData = {
     "page": "1",
@@ -26,6 +29,7 @@ export class AccountComponent implements OnInit {
   private transactionCount: number;
   private transactionsDataSource: BaseDataSource<Transaction>;
   private displayedColumns: string[] = ['created_date', 'title', 'amount'];
+  
   constructor(private accountService: AccountService,
     private zone: NgZone,
     private dialog: MatDialog) { }
@@ -59,8 +63,21 @@ export class AccountComponent implements OnInit {
       })
   }
 
+  dateFilter(): void {
+    this.queryData["min_date"] = this._parse_date(this.dateForm.dateInterval.dateMin);
+    this.queryData["max_date"] = this._parse_date(this.dateForm.dateInterval.dateMax);
+    this.loadTransactions();
+  }
+
+  _parse_date(date: string) : string {
+    if(date) {
+      return new Date(Date.parse(date)).toJSON()
+    } else {
+      return ""
+    }
+  }
+
   ngAfterViewInit(): void {
-    console.log('paginator', this.paginator)
     this.paginator.page.pipe(
       tap(() => this.loadTransactions())
     ).subscribe();

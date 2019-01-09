@@ -1,5 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px" class="container">
-  <div *ngIf="account" class="account-info">
+  <div fxLayout="row" fxLayoutAlign="end end" *ngIf="account" class="account-info" fxLayoutGap="25px">
+    <div>
     <h2>Informacje o rachunku</h2>
     <mat-list>
       <mat-list-item>Numer rachunku: {{account.number}}</mat-list-item>
@@ -9,6 +10,11 @@
     </mat-list>
     <p></p>
     <button mat-stroked-button (click)="chargeAccount()">Doładuj konto</button>
+  </div>
+  <div fxLayout="column">
+    <app-date-form></app-date-form>
+    <button mat-stroked-button (click)="dateFilter()">Filtruj</button>
+  </div>
   </div>
   <mat-paginator class="bets-paginator" [length]="transactionCount" [pageSize]="15" #pag></mat-paginator>
   <table mat-table [dataSource]="transactionsDataSource" class="mat-elevation-z8">

@@ -1,7 +1,8 @@
-<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="50px" class="container">
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="50px" class="container">
     <div class="spinner-container" *ngIf="betsDataSource.loading$ | async">
         <mat-spinner></mat-spinner>
     </div>
+    <mat-paginator class="bets-paginator" [length]="transactionCount" [pageSize]="15" #pag></mat-paginator>
     <table mat-table [dataSource]="betsDataSource" class="bets-table mat-elevation-z8">
         <ng-container matColumnDef="created_date">
             <th mat-header-cell *matHeaderCellDef> Data </th>
@@ -26,6 +27,10 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Anuluj zakład </th>
             <td mat-cell *matCellDef="let element"><button (click)="deleteBet(element.id)" mat-button>Usuń</button></td>
+        </ng-container>
+        <ng-container matColumnDef="match">
+                <th mat-header-cell *matHeaderCellDef>Mecz</th>
+                <td mat-cell *matCellDef="let element"><button (click)="selectRow(element.match_id)" mat-button>Pokaż mecz</button></td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

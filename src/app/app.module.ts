@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatTabsModule, MatSlideToggleModule,
   MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule,
-  MatAutocompleteModule, MatSnackBarModule
+  MatAutocompleteModule, MatSnackBarModule, MatDatepickerModule, MatNativeDateModule
 } from '@angular/material';
 import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
@@ -33,6 +33,7 @@ import { ErrorsHandler } from './errors-handler';
 import { ErrorsComponent } from './errors/errors.component';
 import { ChargeDialogComponent } from './charge-dialog/charge-dialog.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { DateFormComponent } from './date-form/date-form.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatchesComponent,
     MatchDetailComponent,
     LoginComponent,
-    HeaderComponent, AccountComponent, BetFormComponent, BetComponent, LoginFormComponent, PasswordResetComponent, ErrorDialogComponent, StatusPipe, BetHistoryComponent, ErrorsComponent, ChargeDialogComponent 
+    HeaderComponent, AccountComponent, BetFormComponent, BetComponent, LoginFormComponent, PasswordResetComponent, ErrorDialogComponent, StatusPipe, BetHistoryComponent, ErrorsComponent, ChargeDialogComponent, DateFormComponent 
   ],
   imports: [
     BrowserModule,
@@ -70,7 +71,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatAutocompleteModule,
     MatSnackBarModule,
     MatSlideToggleModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     {
