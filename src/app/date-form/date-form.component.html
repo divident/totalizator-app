@@ -1,0 +1,11 @@
+<mat-form-field>
+        <input matInput [matDatepicker]="minDate" placeholder="Data początkowa" [(ngModel)]="dateInterval.dateMin" [ngModelOptions]="{standalone: true}">
+        <mat-datepicker-toggle matSuffix [for]="minDate"></mat-datepicker-toggle>
+        <mat-datepicker #minDate></mat-datepicker>
+</mat-form-field>
+<p></p>
+<mat-form-field>
+        <input matInput [matDatepicker]="maxDate" placeholder="Data końcowa" [(ngModel)]="dateInterval.dateMax" [ngModelOptions]="{standalone: true}">
+        <mat-datepicker-toggle matSuffix [for]="maxDate"></mat-datepicker-toggle>
+        <mat-datepicker #maxDate></mat-datepicker>
+</mat-form-field>
