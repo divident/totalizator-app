@@ -13,15 +13,12 @@ export class ErrorsHandler implements ErrorHandler {
         console.log(error)
         if (error instanceof HttpErrorResponse) {
             if(!navigator.onLine){
-                return notificationService.handleError("Brak połączenia internetowego")
+                return notificationService.handleError("Brak połączenia z internetem")
             }else {
                 if(error.status == 401){
                     return notificationService.handleError("Zaloguj się aby wykonać akcję")   
                 }
-                let message = ""
-                for(let key in error.error)
-                    message += `${error.error[key]}\n`
-                return notificationService.handleError(message)
+                return notificationService.handleError("Brak połączenia z serwerem")
             }
         } else {
             router.navigate(['/error'], {queryParams: {error: error}});
