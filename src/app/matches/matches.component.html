@@ -26,7 +26,7 @@
             <button mat-stroked-button (click)="clearFilters()">Wyczyść filtry</button>
         </form>
         <p></p>
-        <mat-slide-toggle [(ngModel)]="available" [checked]="checked" (change)="setAvailable()">
+        <mat-slide-toggle [(ngModel)]="available" (change)="setAvailable()">
             Pokaż mecze historyczne
         </mat-slide-toggle>
     </div>
@@ -51,7 +51,7 @@
                 </ng-container>
                 <ng-container matColumnDef="exchange">
                     <th mat-header-cell *matHeaderCellDef> Kurs </th>
-                    <td mat-cell *matCellDef="let row"> {{row.team_one_win_exchange}} : {{row.team_two_win_exchange}}
+                    <td mat-cell *matCellDef="let row"> {{row.team_one_win_exchange}} : {{row.team_two_win_exchange}} : {{row.tie_exchange}}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="play_date">

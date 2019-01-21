@@ -68,9 +68,9 @@ export class BetFormComponent implements OnInit {
       this.winValue = price * this.currentBetRate;
     });
     this.betForm.get('picked_team').valueChanges.subscribe(team => {
-      if(team === this.match.team_one) {
+      if(team === 0) {
         this.currentBetRate = this.match.team_one_win_exchange;
-      } else if(team == this.match.team_two) {
+      } else if(team == 1) {
         this.currentBetRate = this.match.team_two_win_exchange;
       } else {
         this.currentBetRate = this.match.tie_exchange;

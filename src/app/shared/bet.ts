@@ -5,7 +5,7 @@ export class Bet {
     created_date: Date;
     price: number;
     player: number;
-    picked_team: string;
+    picked_team: number;
     reward: number;
     status: number;
     match_id: number;
@@ -17,3 +17,9 @@ export enum BetStatus {
     WIN = 1,
     LOSE = 2
 };
+
+export function getTeamName(index: number) {
+    let pickedTeamName: string[] = ["Zespół pierwszy", "Zespół drugi", "Remis"];
+    if(0 > index || index > 2) return ""
+    return pickedTeamName[index];
+}

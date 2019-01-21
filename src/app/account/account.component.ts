@@ -25,10 +25,10 @@ export class AccountComponent implements OnInit {
     "page": "1",
   }
 
-  private account: Account;
-  private transactionCount: number;
-  private transactionsDataSource: BaseDataSource<Transaction>;
-  private displayedColumns: string[] = ['created_date', 'title', 'amount'];
+  account: Account;
+  transactionCount: number;
+  transactionsDataSource: BaseDataSource<Transaction>;
+  displayedColumns: string[] = ['created_date', 'title', 'amount'];
   
   constructor(private accountService: AccountService,
     private zone: NgZone,

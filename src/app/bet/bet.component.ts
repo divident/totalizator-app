@@ -1,6 +1,6 @@
 import { Component, OnInit, ErrorHandler, ViewChild } from '@angular/core';
 import { BetService } from '../services/bet.service';
-import { Bet } from '../shared/bet';
+import { Bet, getTeamName}  from '../shared/bet';
 import { Router } from '@angular/router';
 import { BaseDataSource } from '../shared/base-data-source';
 import { ErrorsHandler } from '../errors-handler';
@@ -16,7 +16,7 @@ import { tap } from 'rxjs/operators';
 export class BetComponent implements OnInit {
   @ViewChild('pag') paginator: MatPaginator;
   betsDataSource: BaseDataSource<Bet>;
-
+  betsCount: number;
   displayedColumns: string[] = ['created_date', 'picked_team', 'price', 'reward', 'status', 'match', 'actions'];
   queryData = {
     "page": "1",
@@ -28,6 +28,11 @@ export class BetComponent implements OnInit {
   ngOnInit() {
     this.betsDataSource = new BaseDataSource<Bet>(this.betService);
     this.loadBets();
+    this.betsDataSource.getDataLength().subscribe(res => this.betsCount = res)
+  }
+  
+  getTeamName(index: number) {
+    return getTeamName(index);
   }
 
   ngAfterViewInit(): void {
@@ -35,7 +40,7 @@ export class BetComponent implements OnInit {
       tap(() => this.loadBets())
     ).subscribe();
   }
-  
+
   selectRow(id: number) {
     this.route.navigate([`/matches/${id}`]);
   }

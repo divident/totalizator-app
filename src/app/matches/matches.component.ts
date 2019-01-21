@@ -28,7 +28,7 @@ export class MatchesComponent implements OnInit {
   leagueControl = new FormControl();
   teamControl = new FormControl();
 
-  private displayedCoulumns: string[] = ["league", "team_one", "team_two", "exchange", 
+  displayedCoulumns: string[] = ["league", "team_one", "team_two", "exchange", 
   "play_date", "score_team_one", "score_team_two"]
 
   queryData = {
@@ -68,7 +68,7 @@ export class MatchesComponent implements OnInit {
     ).subscribe();
   }
 
-  private setAvailable() {
+  setAvailable() {
     console.log("Available ", this.available)
     this.queryData["available"] = !this.available ? "1" : "0";
     this.loadMatches();

@@ -28,8 +28,8 @@ export class MatchDetailComponent implements OnInit {
   showForm = true;
   available: boolean;
 
-  private comments: Comment[];
-  private match: Match;
+  comments: Comment[] = [];
+  match: Match;
 
   formErrors = {
     'author': '',
@@ -68,7 +68,7 @@ export class MatchDetailComponent implements OnInit {
       .subscribe(
         (comment) => {
           if (comment) {
-            this.comments.push(<Comment>comment);
+            this.comments.push(comment)
           }},
         error => this.errorMsg.handleError("Zaloguj się aby dodać komentarz"));
     console.log(this.comment);
@@ -94,7 +94,6 @@ export class MatchDetailComponent implements OnInit {
     this.commentsService.getMatchComments(matchId)
         .subscribe(comments => {
           this.comments = comments;
-          console.log("Comments", this.comments)
         })
   }
 

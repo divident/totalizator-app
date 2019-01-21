@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatTabsModule, MatSlideToggleModule,
   MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule,
-  MatAutocompleteModule, MatSnackBarModule, MatDatepickerModule, MatNativeDateModule
+  MatAutocompleteModule, MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorIntl
 } from '@angular/material';
 import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
@@ -34,6 +34,7 @@ import { ErrorsComponent } from './errors/errors.component';
 import { ChargeDialogComponent } from './charge-dialog/charge-dialog.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { DateFormComponent } from './date-form/date-form.component';
+import { getPolishPaginatorIntl } from './polish-paginator-init';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { DateFormComponent } from './date-form/date-form.component';
      provide: ErrorHandler,
      useClass: ErrorsHandler
     },
+    { provide: MatPaginatorIntl, useValue:  getPolishPaginatorIntl()},
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: { siteKey: '6LcLGHwUAAAAAOFEYtdgPG842FwwtCzGsMjKM8Gf' } as RecaptchaSettings,

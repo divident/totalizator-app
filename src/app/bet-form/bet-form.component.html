@@ -21,7 +21,7 @@
   </mat-form-field>
   <p>
     <label>Przewidywana wygrana:
-        <span>{{winValue}} zł</span>
+        <span>{{winValue | number: '.2'}} zł</span>
     </label>
   </p>
   <button [disabled]="!(available)" type="submit" mat-stroked-button class="background-primary text-floral-white" [disabled]="betForm.invalid">Submit</button>

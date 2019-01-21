@@ -78,7 +78,6 @@ export class LoginFormComponent implements OnInit {
         this.user.password = this.registerForm.value.password1
         this.user.username = this.registerForm.value.username
         this.authService.logIn(this.user).subscribe(usr => {
-          console.log('Login as ' + usr)
           this.router.navigate([''])
         })
       },
