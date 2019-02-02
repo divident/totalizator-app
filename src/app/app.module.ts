@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatToolbarModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatTabsModule, MatSlideToggleModule,
   MatInputModule, MatCheckboxModule, MatListModule, MatButtonModule, MatTableModule, MatDividerModule,
-  MatAutocompleteModule, MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorIntl
+  MatAutocompleteModule, MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorIntl, MatMenuModule
 } from '@angular/material';
 import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
@@ -74,7 +74,8 @@ import { getPolishPaginatorIntl } from './polish-paginator-init';
     MatSlideToggleModule,
     MatTooltipModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatMenuModule
   ],
   providers: [
     {

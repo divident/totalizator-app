@@ -73,7 +73,11 @@ export class AuthService {
 
   logOut() {
     this.destroyCredentials();
-    this.router.navigate(['/'])
+    let url = `${baseURL}rest-auth/logout/`
+    this.http.post(url, this.getAuthHttpHeader()).subscribe(
+      res => this.router.navigate(['/'])
+    );
+    
   }
 
   loadUserCredentials() {

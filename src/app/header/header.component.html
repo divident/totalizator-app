@@ -1,3 +1,4 @@
+<div fxHide.lt-md="true" fxHide.gt-md="false">
 <mat-toolbar color="primary">
   <a mat-button routerLink="/matches" routerLinkActive="active">Mecze</a>
   <a *ngIf="!username" mat-button routerLink="/register" routerLinkActive="active">Rejestracja</a>
@@ -9,6 +10,29 @@
   <a *ngIf="username">{{username}}</a>
   <a *ngIf="username" mat-button (click)="logOut()">Wyloguj</a>  
 </mat-toolbar>
+</div>
+
+<div fxHide.lt-md="false" fxHide.gt-md>
+<mat-toolbar color="primary">
+  <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+  <mat-menu #menu="matMenu">
+    <a matLine *ngIf="username">{{username}}</a>
+    <p></p>
+    <a mat-button routerLink="/matches" routerLinkActive="active">Mecze</a>
+    <p></p>
+    <a *ngIf="username" mat-button routerLink="/account" routerLinkActive="active">Rachunek</a>
+    <p></p>
+    <a *ngIf="username" mat-button routerLink="/bets" routerLinkActive="active">Aktywne Zakłady</a>
+    <p></p>
+    <a *ngIf="username" mat-button routerLink="/bets-history" routerLinkActive="active">Historia Zkaładów</a>
+    <p></p>
+    <a *ngIf="!username" mat-button routerLink="/register" routerLinkActive="active">Rejestracja</a>
+  </mat-menu>
+  <span class="fill-remaining-space"></span>
+  <a matLine *ngIf="!username" mat-button (click)="openLoginForm()">Zaloguj</a>
+  <a matLine *ngIf="username" mat-button (click)="logOut()">Wyloguj</a>
+</mat-toolbar>
+</div>
 
 <div class="container jumbotron"
     fxLayout="row"

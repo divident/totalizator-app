@@ -1,3 +1,9 @@
-<p>Kod błędu: {{errorCode}}</p>
-<mat-divider></mat-divider>
-<p>{{errorMsg}}</p>
+<div class="container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="50px">
+    <div *ngIf="pageMissing">
+        <h2 class="mat-h2">Strona nie istnieje!</h2>    
+    </div>
+    <div *ngIf="!pageMissing">
+        <h2 class="mat-h2">Nieoczekiwany błąd, spróbuj ponownie.</h2>    
+    </div>
+</div>
+

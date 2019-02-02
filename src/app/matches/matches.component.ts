@@ -118,7 +118,7 @@ export class MatchesComponent implements OnInit {
   }
  
   selectMatch(row: Match): void {
-    console.log("Select match", row)
+    if(this.available) return;
     this.router.navigate(["/matches", row.id])
   }
 

@@ -6,11 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./date-form.component.css']
 })
 export class DateFormComponent implements OnInit {
-
+  datesValid = true;
   dateInterval = {dateMin: "", dateMax: ""}
   constructor() { }
 
   ngOnInit() {
+  }
+
+  areDatesValid(): void {
+    if(this.dateInterval.dateMax && this.dateInterval.dateMin) {
+      this.datesValid = this.dateInterval.dateMin < this.dateInterval.dateMax ? true : false;
+      console.log("Dates validation " + this.datesValid)
+    }
+    console.log("Dates validation else " + this.datesValid)
   }
 
 }

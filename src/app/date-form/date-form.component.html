@@ -4,8 +4,9 @@
         <mat-datepicker #minDate></mat-datepicker>
 </mat-form-field>
 <p></p>
+<mat-error *ngIf="!datesValid">Wybrana data początkowa jest większa od daty końcowej!</mat-error>
 <mat-form-field>
-        <input matInput [matDatepicker]="maxDate" placeholder="Data końcowa" [(ngModel)]="dateInterval.dateMax" [ngModelOptions]="{standalone: true}">
+        <input matInput [matDatepicker]="maxDate" placeholder="Data końcowa" [(ngModel)]="dateInterval.dateMax" [ngModelOptions]="{standalone: true}" (ngModelChange)="areDatesValid()">
         <mat-datepicker-toggle matSuffix [for]="maxDate"></mat-datepicker-toggle>
         <mat-datepicker #maxDate></mat-datepicker>
 </mat-form-field>

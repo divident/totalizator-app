@@ -1,4 +1,4 @@
-<div class="container" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="50px">
+<div class="container" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="50px"  fxLayoutGap.lt-sm="10px">
     <div class="matches-search-panel">
         <form class="matches-form">
             <p>
@@ -34,7 +34,7 @@
         <div class="spinner-container" *ngIf="matches.loading$ | async">
             <mat-spinner></mat-spinner>
         </div>
-        <div [hidden]="!matches.loading$">
+        <div [hidden]="!matches.loading$" fxWidth.lt-sm="100%">
             <mat-paginator class="matches-paginator" [length]="matchesCount" [pageSize]="15"></mat-paginator>
             <mat-table class="matches-table mat-elevation-z9" [dataSource]="matches">
                 <ng-container matColumnDef="league">
@@ -56,7 +56,7 @@
                 </ng-container>
                 <ng-container matColumnDef="play_date">
                     <th mat-header-cell *matHeaderCellDef> Data Spotkania </th>
-                    <td mat-cell *matCellDef="let row"> {{row.play_date | date:'medium'}}</td>
+                    <td mat-cell *matCellDef="let row"> {{row.play_date | date:'short'}}</td>
                 </ng-container>
                 <ng-container matColumnDef="score_team_one">
                     <th mat-header-cell *matHeaderCellDef> Wynik zespołu 1 </th>

@@ -8,18 +8,19 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ErrorsComponent implements OnInit {
 
-  errorCode: number;
-  errorMsg: string;
+  pageMissing: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const error = params['error']
-      this.errorCode = error.code ? 404 : error.code
-      this.errorMsg = error.status ? "Strona nie istnieje" : error.status
-      console.log(error)
+    this.activatedRoute.data.subscribe(data => {
+      const error = data['error'] || 400;
+      console.log("Params" + JSON.stringify(data))
+      if(error == 404) {
+        this.pageMissing = true;
+      } else {
+        this.pageMissing = false;
+      }
     });
   }
-
 }
