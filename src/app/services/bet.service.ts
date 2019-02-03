@@ -22,19 +22,16 @@ export class BetService implements SerachService<Bet> {
   
   postBet(bet: any) {
     let authHeader = this.authService.getAuthHttpHeader();
-    console.log('postBet' + JSON.stringify(bet));
     return this.http.post(this.betUrl, bet, authHeader)
   }
 
   getBets() : Observable<Page<Bet>> {
     let authHeader = this.authService.getAuthHttpHeader();
-    console.log('getBets');
     return this.http.get<Page<Bet>>(this.betUrl, authHeader)
   }
 
   deleteBet(betId: number): Observable<any> {
     let authHeader = this.authService.getAuthHttpHeader();
-    console.log('deleteBet');
     return this.http.delete(this.betUrl + betId, authHeader)
   }
 
@@ -46,7 +43,6 @@ export class BetService implements SerachService<Bet> {
       }
      }
     let authHeader = this.authService.getAuthHttpHeader();
-    console.log('search bets');
     let httpData = Object.assign({params: httpParams}, authHeader)
     return this.http.get<Page<Bet>>(this.betUrl, httpData).pipe(
       map(res => {

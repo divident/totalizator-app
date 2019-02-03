@@ -43,7 +43,7 @@ export class LoginFormComponent implements OnInit {
   ngOnInit() {
     this.createForm()
     this.subscription = this.authService.getUsername().subscribe(
-      name => { console.log(name); this.username = name },
+      name => { this.username = name },
     )
   }
 
@@ -71,10 +71,8 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.registerForm.value)
     this.authService.registerUser(this.registerForm).subscribe(
       res => {
-        console.log(res)
         this.user.password = this.registerForm.value.password1
         this.user.username = this.registerForm.value.username
         this.authService.logIn(this.user).subscribe(usr => {
@@ -85,10 +83,8 @@ export class LoginFormComponent implements OnInit {
   }
 
   login() {
-    console.log(this.user)
     this.authService.logIn(this.user).subscribe(
       res => {
-        console.log(res),
           this.router.navigate([''])
       },
       error => {
@@ -104,6 +100,5 @@ export class LoginFormComponent implements OnInit {
         this.formErrors[key] += value + " "
       }
     }
-    console.log("Errors from server " + JSON.stringify(this.formErrors))
   }
 }

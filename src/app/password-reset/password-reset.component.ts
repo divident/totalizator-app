@@ -22,7 +22,6 @@ export class PasswordResetComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Email ", this.resetData)
     this.authService.resetPassword(this.resetData)
       .subscribe(res => {
         this.snackBar.open("Email został wyslany", "", {duration: 1000});

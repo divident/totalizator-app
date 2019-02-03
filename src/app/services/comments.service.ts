@@ -23,7 +23,6 @@ export class CommentsService {
 
   getMatchComments(matchId: number): Observable<Comment[]> {
     const url = `${this.commentsUrl}?match=${matchId}`
-    console.log(url)
     return this.http.get<Page<Comment>>(url).pipe(
       map(res => res.results)
     );
@@ -31,7 +30,6 @@ export class CommentsService {
 
   postComment(comment: any): Observable<Comment>{
     let authHeader = this.authService.getAuthHttpHeader()
-    console.log('postComment' + JSON.stringify(comment))
     return this.http.post<Comment>(this.commentsUrl, comment, authHeader)
   }
 }

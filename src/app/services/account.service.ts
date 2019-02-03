@@ -35,10 +35,7 @@ export class AccountService implements SerachService<Transaction> {
 
   performCharge(amount: number): Observable<Redirect> {
     let httpOptions = this.authService.getAuthHttpHeader()
-    return this.http.post<Redirect>(this.chargeUrl, {'total_amount': amount}, httpOptions)
-      .pipe(
-        tap(res => console.log('Charge response ' + res.redirectUri)),
-      )
+    return this.http.post<Redirect>(this.chargeUrl, {'total_amount': amount}, httpOptions);
   }
 
   searchData(...params: [string, string][]): Observable<[Transaction[], number]> {

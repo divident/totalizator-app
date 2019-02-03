@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.authService.getUsername().subscribe(username => {
       this.username = username;
-      console.log("Subscribe username: ", this.username)
     })
     this.authService.loadUserCredentials();
 
@@ -36,8 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     let loginRef = this.dialog.open(LoginComponent, { width: '500px', height: '450px' });
 
     loginRef.afterClosed()
-      .subscribe(result => {
-        console.log(result);
+      .subscribe(_ => {
       });
   }
 

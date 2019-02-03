@@ -15,7 +15,6 @@ export class ErrorsComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.data.subscribe(data => {
       const error = data['error'] || 400;
-      console.log("Params" + JSON.stringify(data))
       if(error == 404) {
         this.pageMissing = true;
       } else {

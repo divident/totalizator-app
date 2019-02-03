@@ -32,7 +32,6 @@ export class AuthService {
     private router: Router) { }
 
   storeUserCredentials(credentails: any) {
-    console.log('storeUserCredentials', credentails);
     localStorage.setItem(authKey, JSON.stringify(credentails))
     this.useCredentials(credentails)
   }
@@ -44,7 +43,6 @@ export class AuthService {
   }
 
   sendUsername(name: string) {
-    console.log("User name: ", name)
     this.username.next(name);
   }
 
@@ -53,10 +51,8 @@ export class AuthService {
   }
 
   logIn(user: any): Observable<any> {
-    console.log("User: " + JSON.stringify(user))
     return this.http.post<AuthResponse>(this.authUrl + 'login/',
     {'username': user.username, 'password': user.password}).pipe(
-      tap(res => console.log(JSON.stringify(res))),
       tap(res => this.storeUserCredentials({username: res.user.username, token: res.token})),
       tap(res => this.sendUsername(res.user.username)),
       map(res => {return {'success': true, 'username': user.username}}),
@@ -82,7 +78,6 @@ export class AuthService {
 
   loadUserCredentials() {
     const credentials = JSON.parse(localStorage.getItem(authKey));
-    console.log('loadUserCredentials ', credentials);
     if (credentials && credentials.username !== undefined) {
       this.useCredentials(credentials);
     }
@@ -104,9 +99,7 @@ export class AuthService {
 
   registerUser(data: any): Observable<any> {
     let registerURL = `${baseURL}rest-auth/registration/`
-    return this.http.post(registerURL, data.value).pipe(
-      tap(res => console.log(res))
-    )
+    return this.http.post(registerURL, data.value);
   }
 
   isLoggedIn(): Boolean {
@@ -119,8 +112,6 @@ export class AuthService {
 
   resetPassword(data: any): Observable<any> {
     let resetURL = `${baseURL}rest-auth/password/reset/`
-    return this.http.post(resetURL, data).pipe(
-      tap(res => console.log(res))
-    )
+    return this.http.post(resetURL, data);
   }
 }

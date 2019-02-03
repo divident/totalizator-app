@@ -47,12 +47,10 @@ export class BetComponent implements OnInit {
 
   deleteBet(betId: number) {
 
-    console.log(`Delete bet with id ${betId}`);
     if (confirm("Czy jesteś pewny")) {
       this.betService.deleteBet(betId)
         .subscribe(result => {
           this.betsDataSource.loadData();
-          console.log(result)
         });
     }
   }
@@ -61,7 +59,6 @@ export class BetComponent implements OnInit {
     let query: [string, string][] = [];
     query.push()
     for(let [key, val] of Object.entries(this.queryData)) {
-      console.log(key, val)
       if(key == "page"){
         query.push([key, (this.paginator.pageIndex + 1).toString()]);
       }else {

@@ -34,7 +34,6 @@ export class BaseDataSource<T> implements DataSource<T> {
         ).subscribe(res => {
             this.dataSubject.next(res[0]);
             this.dataCount.next(res[1]);
-            console.log(res);
         })
     }
 

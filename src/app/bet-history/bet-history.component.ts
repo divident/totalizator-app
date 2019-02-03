@@ -49,7 +49,6 @@ export class BetHistoryComponent implements OnInit {
     let query: [string, string][] = [];
     query.push()
     for(let [key, val] of Object.entries(this.queryData)) {
-      console.log(key, val)
       if(key == "page"){
         query.push([key, (this.paginator.pageIndex + 1).toString()]);
       }else {

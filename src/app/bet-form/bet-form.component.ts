@@ -46,11 +46,9 @@ export class BetFormComponent implements OnInit {
 
   onSubmit() {
     this.betForm.value['match_id'] = this.match.id;
-    console.log(this.betForm.validator);
     this.betService.postBet(this.betForm.value)
       .subscribe(bet => {
         if (bet) {
-          console.log(JSON.stringify(bet));
           this.snackBar.open("Utworzono zakład", "", {
             duration: 1000,
             panelClass: 'green-snackbar'})
@@ -64,7 +62,6 @@ export class BetFormComponent implements OnInit {
 
   onChanges(): void {
     this.betForm.get('price').valueChanges.subscribe(price => {
-      console.log("Price changed " + price)
       this.winValue = price * this.currentBetRate;
     });
     this.betForm.get('picked_team').valueChanges.subscribe(team => {
@@ -75,7 +72,6 @@ export class BetFormComponent implements OnInit {
       } else {
         this.currentBetRate = this.match.tie_exchange;
       }
-      console.log(this.betForm.get('price').value);
       this.winValue = this.betForm.get('price').value * this.currentBetRate;
     });
   }

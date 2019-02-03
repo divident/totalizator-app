@@ -50,11 +50,9 @@ export class AccountComponent implements OnInit {
     let dialog = this.dialog.open(ChargeDialogComponent);
     dialog.afterClosed().subscribe(
       amount => {
-        console.log(amount)
         if (amount) {
           this.accountService.performCharge(amount*100)
             .subscribe(res => {
-              console.log("Charge: ", res)
               this.zone.runOutsideAngular(() => {
                 window.location.href = res.redirectUri;
               })
@@ -94,7 +92,6 @@ export class AccountComponent implements OnInit {
     let query: [string, string][] = [];
     query.push()
     for(let [key, val] of Object.entries(this.queryData)) {
-      console.log(key, val)
       if(key == "page"){
         query.push([key, (this.paginator.pageIndex + 1).toString()]);
       }else {

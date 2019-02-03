@@ -10,7 +10,6 @@ export class ErrorsHandler implements ErrorHandler {
     handleError(error: Error) {
         const notificationService = this.injector.get(ProcessHttpMsgService);
         const router = this.injector.get(Router);
-        console.log(error)
         if (error instanceof HttpErrorResponse) {
             if(!navigator.onLine){
                 return notificationService.handleError("Brak połączenia z internetem")
@@ -18,7 +17,11 @@ export class ErrorsHandler implements ErrorHandler {
                 if(error.status == 401){
                     return notificationService.handleError("Zaloguj się aby wykonać akcję")   
                 }
-                return notificationService.handleError("Brak połączenia z serwerem")
+                else if(400 <= error.status && error.status < 500){
+                    return notificationService.handleError(error.error)
+                } else{
+                    return notificationService.handleError("Brak połączenia z serwerem")
+                }
             }
         } else {
             router.navigate(['/error'], {queryParams: {error: error}});

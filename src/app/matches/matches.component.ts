@@ -49,13 +49,11 @@ export class MatchesComponent implements OnInit {
     this.matchService.getLeagues().subscribe(leagues => this.leagues = leagues);
     this.filteredLeagues = this.leagueControl.valueChanges.pipe(
       startWith(''),
-      tap(value => console.log(value)),
       map(value => this._filter(value, this.leagues))
     )
 
     this.filteredTeams = this.teamControl.valueChanges.pipe(
       startWith(''),
-      tap(value => console.log(value)),
       map(value => this._filter(value, this.teams))
     )
 
@@ -69,7 +67,6 @@ export class MatchesComponent implements OnInit {
   }
 
   setAvailable() {
-    console.log("Available ", this.available)
     this.queryData["available"] = !this.available ? "1" : "0";
     this.loadMatches();
   }
@@ -82,13 +79,11 @@ export class MatchesComponent implements OnInit {
 
 
   setTeam(value: string) {
-    console.log("Set team", value)
     this.queryData["team"] = value;
     this.loadMatches();
   }
 
   setLeague(value: string) {
-    console.log("Set league", value)
     this.queryData["league"] = value;
     this.loadMatches();
   }
@@ -97,7 +92,6 @@ export class MatchesComponent implements OnInit {
     let query: [string, string][] = [];
     query.push()
     for(let [key, val] of Object.entries(this.queryData)) {
-      console.log(key, val)
       if(key == "page"){
         query.push([key, (this.paginator.pageIndex + 1).toString()]);
       }else {

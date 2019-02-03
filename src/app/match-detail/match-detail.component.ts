@@ -9,6 +9,8 @@ import { MatchService } from '../services/match.service';
 import { BetFormComponent } from '../bet-form/bet-form.component';
 import { ProcessHttpMsgService } from '../services/process-httpmsg.service';
 import { ErrorsHandler } from '../errors-handler';
+import { timeInterval } from 'rxjs/operators';
+import { delay } from 'q';
 
 
 @Component({
@@ -55,15 +57,16 @@ export class MatchDetailComponent implements OnInit {
 
   ngAfterViewInit() {
     const id = +this.route.snapshot.paramMap.get('id');
+    
     this.matchService.getMatch(id)
       .subscribe(match => {
+        delay(2000);
         this.betForm.match = match;
         this.betForm.createForm();});
   }
 
   onSubmit() {
     this.commentForm.value['match'] = this.match.id;
-    console.log(this.commentForm.value);
     this.commentsService.postComment(this.commentForm.value)
       .subscribe(
         (comment) => {
@@ -71,7 +74,6 @@ export class MatchDetailComponent implements OnInit {
             this.comments.push(comment)
           }},
         error => this.errorMsg.handleError("Zaloguj się aby dodać komentarz"));
-    console.log(this.comment);
     this.commentForm.reset({
       comment: ''
     });
@@ -85,7 +87,6 @@ export class MatchDetailComponent implements OnInit {
         .subscribe(match => {
           this.match = match,
           this.available = match.score_team_one == -1 ? true : false;
-          console.log(this.available)
         })
     this.getComments(id)
   }
