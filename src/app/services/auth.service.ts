@@ -8,6 +8,7 @@ import { User } from '../shared/user';
 import { baseURL } from '../shared/baseurl';
 import { authKey} from '../shared/config';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 interface AuthResponse {
   status: string,
@@ -29,7 +30,8 @@ export class AuthService {
   
   constructor(private http: HttpClient,
     private processMsg: ProcessHttpMsgService,
-    private router: Router) { }
+    private router: Router,
+    private cookieService: CookieService) { }
 
   storeUserCredentials(credentails: any) {
     localStorage.setItem(authKey, JSON.stringify(credentails))

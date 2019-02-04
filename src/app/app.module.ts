@@ -10,7 +10,7 @@ import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recap
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms'
 import { AppComponent } from './app.component';
 import { MatchesComponent } from './matches/matches.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { MatchDetailComponent } from './match-detail/match-detail.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,6 +35,7 @@ import { ChargeDialogComponent } from './charge-dialog/charge-dialog.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { DateFormComponent } from './date-form/date-form.component';
 import { getPolishPaginatorIntl } from './polish-paginator-init';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,10 @@ import { getPolishPaginatorIntl } from './polish-paginator-init';
   imports: [
     BrowserModule,
     HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'csrftoken',
+      headerName: 'HTTP_X_CSRFTOKEN'
+    }),
     FormsModule,
     ReactiveFormsModule,
     MatToolbarModule,
@@ -77,7 +82,7 @@ import { getPolishPaginatorIntl } from './polish-paginator-init';
     MatNativeDateModule,
     MatMenuModule
   ],
-  providers: [
+  providers: [CookieService,
     {
      provide: ErrorHandler,
      useClass: ErrorsHandler
@@ -89,6 +94,6 @@ import { getPolishPaginatorIntl } from './polish-paginator-init';
     },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [LoginComponent, ErrorDialogComponent, ChargeDialogComponent]
+  entryComponents: [LoginComponent, ErrorDialogComponent, ChargeDialogComponent],
 })
 export class AppModule { }

@@ -28,6 +28,7 @@
     "flex-layout-srcs": "github:angular/flex-layout",
     "hammerjs": "^2.0.8",
     "ng-recaptcha": "^4.2.1",
+    "ngx-cookie-service": "^2.1.0",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.26"
   },
