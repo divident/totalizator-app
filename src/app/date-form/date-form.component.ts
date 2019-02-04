@@ -15,7 +15,7 @@ export class DateFormComponent implements OnInit {
 
   areDatesValid(): void {
     if(this.dateInterval.dateMax && this.dateInterval.dateMin) {
-      this.datesValid = this.dateInterval.dateMin < this.dateInterval.dateMax ? true : false;
+      this.datesValid = this.dateInterval.dateMin <= this.dateInterval.dateMax ? true : false;
     }
   }
 
